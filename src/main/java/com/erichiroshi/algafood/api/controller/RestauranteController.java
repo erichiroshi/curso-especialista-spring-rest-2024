@@ -2,8 +2,7 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.model.Restaurante;
-import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
-import com.erichiroshi.algafood.domain.service.CadastroRestauranteService;
+import com.erichiroshi.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,14 +15,11 @@ import java.util.List;
 @RequestMapping("/restaurantes")
 public class RestauranteController {
 
-    private final CadastroRestauranteService service;
-
-    private final RestauranteRepository repository;
+    private final RestauranteService service;
 
     @Autowired
-    public RestauranteController(CadastroRestauranteService service, RestauranteRepository repository) {
+    public RestauranteController(RestauranteService service) {
         this.service = service;
-        this.repository = repository;
     }
 
     @GetMapping

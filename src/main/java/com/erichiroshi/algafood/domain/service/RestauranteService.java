@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CadastroRestauranteService {
+public class RestauranteService {
 
     private final RestauranteRepository repository;
 
-    private final CadastroCozinhaService cozinhaService;
+    private final CozinhaService cozinhaService;
 
     @Autowired
-    public CadastroRestauranteService(RestauranteRepository repository, CadastroCozinhaService cozinhaService) {
+    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService) {
         this.repository = repository;
         this.cozinhaService = cozinhaService;
     }

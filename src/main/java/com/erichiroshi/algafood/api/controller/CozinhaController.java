@@ -3,7 +3,7 @@ package com.erichiroshi.algafood.api.controller;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
-import com.erichiroshi.algafood.domain.service.CadastroCozinhaService;
+import com.erichiroshi.algafood.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,10 @@ import java.util.List;
 @RequestMapping("/cozinhas")
 public class CozinhaController {
 
-    private final CadastroCozinhaService service;
+    private final CozinhaService service;
 
     @Autowired
-    public CozinhaController(CadastroCozinhaService service) {
+    public CozinhaController(CozinhaService service) {
         this.service = service;
     }
 
