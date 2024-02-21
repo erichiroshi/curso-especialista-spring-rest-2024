@@ -2,6 +2,7 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
+import com.erichiroshi.algafood.domain.service.CadastroCozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,11 @@ import java.util.Optional;
 public class CozinhaController {
 
     private final CozinhaRepository repository;
+    private final CadastroCozinhaService service;
 
-    public CozinhaController(CozinhaRepository repository) {
+    public CozinhaController(CozinhaRepository repository, CadastroCozinhaService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     @GetMapping
@@ -36,7 +39,7 @@ public class CozinhaController {
 
     @PostMapping
     public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha) {
-        return ResponseEntity.created(null).body(repository.save(cozinha));
+        return ResponseEntity.created(null).body(service.salvar(cozinha));
     }
 
     @PutMapping("/{cozinhaId}")
