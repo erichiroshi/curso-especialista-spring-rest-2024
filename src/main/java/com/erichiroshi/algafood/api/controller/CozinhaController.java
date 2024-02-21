@@ -3,39 +3,37 @@ package com.erichiroshi.algafood.api.controller;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
-import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import com.erichiroshi.algafood.domain.service.CadastroCozinhaService;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cozinhas")
 public class CozinhaController {
 
-    private final CozinhaRepository repository;
     private final CadastroCozinhaService service;
 
-    public CozinhaController(CozinhaRepository repository, CadastroCozinhaService service) {
-        this.repository = repository;
+    @Autowired
+    public CozinhaController(CadastroCozinhaService service) {
         this.service = service;
     }
 
     @GetMapping
     public ResponseEntity<List<Cozinha>> listar() {
-        return ResponseEntity.ok(repository.findAll());
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> buscarId(@PathVariable Long cozinhaId) {
-        Optional<Cozinha> optionalCozinha = repository.findById(cozinhaId);
-        if (optionalCozinha.isPresent())
-            return ResponseEntity.ok(optionalCozinha.get());
-        return ResponseEntity.notFound().build();
+        try {
+            return ResponseEntity.ok(service.findById(cozinhaId));
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
@@ -45,16 +43,12 @@ public class CozinhaController {
 
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
-        Optional<Cozinha> optionalCozinha = repository.findById(cozinhaId);
-
-        if (optionalCozinha.isPresent()) {
-            Cozinha cozinhaAtual = optionalCozinha.get();
-            BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-            cozinhaAtual = repository.save(cozinhaAtual);
-            return ResponseEntity.ok(cozinhaAtual);
+        try {
+            Cozinha update = service.update(cozinhaId, cozinha);
+            return ResponseEntity.ok(update);
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{cozinhaId}")
