@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -52,7 +53,7 @@ public class RestauranteController {
     @PutMapping("/{restauranteId}")
     public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
         try {
-            restaurante = service.update(restauranteId, restaurante);
+            restaurante = service.atualizar(restauranteId, restaurante);
             return ResponseEntity.ok(restaurante);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -60,5 +61,11 @@ public class RestauranteController {
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PatchMapping("/{restauranteId}")
+    public ResponseEntity<Restaurante> atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
+        Restaurante updated = service.atualizarParcial(restauranteId, campos);
+        return ResponseEntity.ok(updated);
     }
 }
