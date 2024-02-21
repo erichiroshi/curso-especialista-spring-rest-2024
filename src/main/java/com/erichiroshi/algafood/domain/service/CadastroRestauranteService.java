@@ -4,6 +4,7 @@ import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,15 @@ public class CadastroRestauranteService {
         Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
         restaurante.setCozinha(cozinha);
         return repository.save(restaurante);
+    }
+
+    public Restaurante update(Long restauranteId, Restaurante restaurante) {
+        Restaurante restauranteAtual = findById(restauranteId);
+        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+
+        BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+        restauranteAtual.setCozinha(cozinha);
+
+        return repository.save(restauranteAtual);
     }
 }

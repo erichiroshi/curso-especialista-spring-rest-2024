@@ -5,6 +5,7 @@ import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
 import com.erichiroshi.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,19 @@ public class RestauranteController {
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
 
         } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{restauranteId}")
+    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
+        try {
+            restaurante = service.update(restauranteId, restaurante);
+            return ResponseEntity.ok(restaurante);
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+        } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
