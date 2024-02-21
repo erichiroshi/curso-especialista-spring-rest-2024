@@ -3,7 +3,8 @@ package com.erichiroshi.algafood.api.controller;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,11 @@ import java.util.Optional;
 @RequestMapping("/cozinhas")
 public class CozinhaController {
 
-    @Autowired
-    private CozinhaRepository repository;
+    private final CozinhaRepository repository;
+
+    public CozinhaController(CozinhaRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping
     public ResponseEntity<List<Cozinha>> listar() {
@@ -47,5 +51,20 @@ public class CozinhaController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{cozinhaId}")
+    public ResponseEntity<Void> remover(@PathVariable Long cozinhaId) {
+        try {
+            Optional<Cozinha> optionalCozinha = repository.findById(cozinhaId);
+            if (optionalCozinha.isPresent()) {
+                repository.deleteById(cozinhaId);
+                return ResponseEntity.noContent().build();
+            }
+
+            return ResponseEntity.notFound().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }
