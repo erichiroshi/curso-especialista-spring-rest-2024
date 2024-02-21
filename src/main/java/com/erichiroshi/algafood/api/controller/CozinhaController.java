@@ -4,6 +4,7 @@ import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,4 +22,8 @@ public class CozinhaController {
         return repository.findAll();
     }
 
+    @GetMapping("/{cozinhaId}")
+    public Cozinha buscarId(@PathVariable Long cozinhaId){
+        return repository.findById(cozinhaId).get();
+    }
 }
