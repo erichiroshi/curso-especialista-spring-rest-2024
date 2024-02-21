@@ -1,6 +1,5 @@
 package com.erichiroshi.algafood.domain.model;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
