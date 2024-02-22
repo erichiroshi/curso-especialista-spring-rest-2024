@@ -35,6 +35,10 @@ public class Restaurante {
     private Endereco endereco;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
+
+    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "dateTime")
     private LocalDateTime dataCadastro;
