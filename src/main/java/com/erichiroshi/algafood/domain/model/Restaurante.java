@@ -1,5 +1,6 @@
 package com.erichiroshi.algafood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
         joinColumns = @JoinColumn(name = "restaurante_id"),
