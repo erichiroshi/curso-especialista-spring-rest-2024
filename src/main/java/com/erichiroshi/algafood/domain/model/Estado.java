@@ -1,7 +1,8 @@
 package com.erichiroshi.algafood.domain.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(of = "id")
