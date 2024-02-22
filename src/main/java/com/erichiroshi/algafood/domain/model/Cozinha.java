@@ -7,9 +7,6 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
