@@ -44,8 +44,8 @@ public class CozinhaController {
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
         try {
-            Cozinha update = service.update(cozinhaId, cozinha);
-            return ResponseEntity.ok(update);
+            Cozinha cozinhaUpdate = service.atualizar(cozinhaId, cozinha);
+            return ResponseEntity.ok(cozinhaUpdate);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }

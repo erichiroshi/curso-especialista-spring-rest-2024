@@ -2,6 +2,7 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class CidadeController {
         try {
             cidade = service.salvar(cidade);
             return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (NegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -49,11 +50,13 @@ public class CidadeController {
     @PutMapping("/{cidadeId}")
     public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
         try {
-            Cidade update = service.update(cidadeId, cidade);
+            Cidade update = service.atualizar(cidadeId, cidade);
             return ResponseEntity.ok(update);
 
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (NegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

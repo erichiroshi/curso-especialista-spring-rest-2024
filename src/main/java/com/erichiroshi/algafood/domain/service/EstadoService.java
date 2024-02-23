@@ -26,8 +26,9 @@ public class EstadoService {
     }
 
     public Estado findById(Long estadoId) {
-        return repository.findById(estadoId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-                String.format("Não existe um cadastro de estado com código %d", estadoId)));
+        return repository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de estado com código %d", estadoId)));
     }
 
     public Estado salvar(Estado estado) {
@@ -46,7 +47,7 @@ public class EstadoService {
         }
     }
 
-    public Estado update(Long estadoId, Estado estado) {
+    public Estado atualizar(Long estadoId, Estado estado) {
         Estado estadoAtual = findById(estadoId);
         BeanUtils.copyProperties(estado, estadoAtual, "id");
         return repository.save(estadoAtual);

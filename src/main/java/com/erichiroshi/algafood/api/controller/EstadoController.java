@@ -45,7 +45,7 @@ public class EstadoController {
     @PutMapping("/{estadoId}")
     public ResponseEntity<?> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
         try {
-            Estado update = service.update(estadoId, estado);
+            Estado update = service.atualizar(estadoId, estado);
             return ResponseEntity.ok(update);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

@@ -1,6 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
@@ -32,24 +33,32 @@ public class RestauranteService {
     }
 
     public Restaurante findById(Long restauranteId) {
-        return repository.findById(restauranteId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-                String.format("Não existe um cadastro de restaurante com código %d", restauranteId)));
+        return repository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de restaurante com código %d", restauranteId)));
     }
 
-    public Restaurante insert(Restaurante restaurante) {
-        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
-        restaurante.setCozinha(cozinha);
+    public Restaurante salvar(Restaurante restaurante) {
+        try {
+            Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            restaurante.setCozinha(cozinha);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
         return repository.save(restaurante);
     }
 
     public Restaurante atualizar(Long restauranteId, Restaurante restaurante) {
         Restaurante restauranteAtual = findById(restauranteId);
-        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
 
-        BeanUtils.copyProperties(restaurante, restauranteAtual,
-                "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-        restauranteAtual.setCozinha(cozinha);
-
+        try {
+            Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            BeanUtils.copyProperties(restaurante, restauranteAtual,
+                    "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+            restauranteAtual.setCozinha(cozinha);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
         return repository.save(restauranteAtual);
     }
 

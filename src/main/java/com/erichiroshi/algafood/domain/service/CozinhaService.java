@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CozinhaService {
@@ -27,8 +26,9 @@ public class CozinhaService {
     }
 
     public Cozinha findById(Long cozinhaId) {
-        return repository.findById(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-                String.format("Não existe um cadastro de cozinha com código %d", cozinhaId)));
+        return repository.findById(cozinhaId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de cozinha com código %d", cozinhaId)));
     }
 
     public Cozinha salvar(Cozinha cozinha) {
@@ -36,11 +36,7 @@ public class CozinhaService {
     }
 
     public void excluir(Long cozinhaId) {
-        Optional<Cozinha> optionalCozinha = repository.findById(cozinhaId);
-        if (optionalCozinha.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de cozinha com código %d", cozinhaId));
-        }
+        findById(cozinhaId);
 
         try {
             repository.deleteById(cozinhaId);
@@ -51,7 +47,7 @@ public class CozinhaService {
         }
     }
 
-    public Cozinha update(Long cozinhaId, Cozinha cozinha) {
+    public Cozinha atualizar(Long cozinhaId, Cozinha cozinha) {
         Cozinha cozinhaAtual = findById(cozinhaId);
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
         return repository.save(cozinhaAtual);

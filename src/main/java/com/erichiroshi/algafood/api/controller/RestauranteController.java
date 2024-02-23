@@ -1,10 +1,10 @@
 package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +42,10 @@ public class RestauranteController {
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody Restaurante restaurante) {
         try {
-            restaurante = service.insert(restaurante);
+            restaurante = service.salvar(restaurante);
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
 
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (NegocioException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -58,7 +58,7 @@ public class RestauranteController {
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
-        } catch (DataIntegrityViolationException e) {
+        } catch (NegocioException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

@@ -2,6 +2,7 @@ package com.erichiroshi.algafood.domain.service;
 
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.CidadeRepository;
@@ -30,14 +31,18 @@ public class CidadeService {
     }
 
     public Cidade findById(Long cidadeId) {
-        return repository.findById(cidadeId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-                String.format("Não existe um cadastro de cidade com código %d", cidadeId)));
+        return repository.findById(cidadeId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de cidade com código %d", cidadeId)));
     }
 
     public Cidade salvar(Cidade cidade) {
-        Estado estado = estadoService.findById(cidade.getEstado().getId());
-        cidade.setEstado(estado);
-
+        try {
+            Estado estado = estadoService.findById(cidade.getEstado().getId());
+            cidade.setEstado(estado);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
         return repository.save(cidade);
     }
 
@@ -53,13 +58,16 @@ public class CidadeService {
         }
     }
 
-    public Cidade update(Long cidadeId, Cidade cidade) {
+    public Cidade atualizar(Long cidadeId, Cidade cidade) {
         Cidade cidadeAtual = findById(cidadeId);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
-        Estado estado = estadoService.findById(cidade.getEstado().getId());
-        cidadeAtual.setEstado(estado);
-
+        try {
+            Estado estado = estadoService.findById(cidade.getEstado().getId());
+            cidadeAtual.setEstado(estado);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
         return repository.save(cidadeAtual);
     }
 
