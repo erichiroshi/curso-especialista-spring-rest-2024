@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.NegocioException;
+import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class RestauranteController {
             Restaurante restaurante = service.findById(restauranteId);
             return ResponseEntity.ok(restaurante);
 
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (RestauranteNaoEncontradoException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -45,7 +45,7 @@ public class RestauranteController {
             restaurante = service.salvar(restaurante);
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
 
-        } catch (NegocioException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -55,10 +55,10 @@ public class RestauranteController {
         try {
             restaurante = service.atualizar(restauranteId, restaurante);
             return ResponseEntity.ok(restaurante);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (RestauranteNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
-        } catch (NegocioException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

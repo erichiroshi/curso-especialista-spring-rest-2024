@@ -1,8 +1,8 @@
 package com.erichiroshi.algafood.api.controller;
 
+import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
-import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.NegocioException;
+import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class CidadeController {
     public ResponseEntity<?> buscarId(@PathVariable Long cidadeId) {
         try {
             return ResponseEntity.ok(service.findById(cidadeId));
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -42,7 +42,7 @@ public class CidadeController {
         try {
             cidade = service.salvar(cidade);
             return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
-        } catch (NegocioException e) {
+        } catch (EstadoNaoEncontradoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -53,9 +53,9 @@ public class CidadeController {
             Cidade update = service.atualizar(cidadeId, cidade);
             return ResponseEntity.ok(update);
 
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (NegocioException e) {
+        } catch (EstadoNaoEncontradoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -66,7 +66,7 @@ public class CidadeController {
             service.excluir(cidadeId);
             return ResponseEntity.noContent().build();
 
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
         } catch (EntidadeEmUsoExecption e) {

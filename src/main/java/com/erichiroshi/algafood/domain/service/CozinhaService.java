@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
+import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
-import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.BeanUtils;
@@ -27,8 +27,7 @@ public class CozinhaService {
 
     public Cozinha findById(Long cozinhaId) {
         return repository.findById(cozinhaId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format("Não existe um cadastro de cozinha com código %d", cozinhaId)));
+                .orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
     }
 
     public Cozinha salvar(Cozinha cozinha) {

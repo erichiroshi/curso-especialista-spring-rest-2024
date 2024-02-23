@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
-import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class EstadoController {
     public ResponseEntity<?> buscarId(@PathVariable Long estadoId) {
         try {
             return ResponseEntity.ok(service.findById(estadoId));
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EstadoNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -47,7 +47,7 @@ public class EstadoController {
         try {
             Estado update = service.atualizar(estadoId, estado);
             return ResponseEntity.ok(update);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EstadoNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -58,7 +58,7 @@ public class EstadoController {
             service.excluir(estadoId);
             return ResponseEntity.noContent().build();
 
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EstadoNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
         } catch (EntidadeEmUsoExecption e) {

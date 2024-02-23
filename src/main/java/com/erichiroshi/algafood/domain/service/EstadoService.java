@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
-import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.EstadoRepository;
 import org.springframework.beans.BeanUtils;
@@ -27,8 +27,7 @@ public class EstadoService {
 
     public Estado findById(Long estadoId) {
         return repository.findById(estadoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format("Não existe um cadastro de estado com código %d", estadoId)));
+                .orElseThrow(() -> new EstadoNaoEncontradoException(estadoId));
     }
 
     public Estado salvar(Estado estado) {

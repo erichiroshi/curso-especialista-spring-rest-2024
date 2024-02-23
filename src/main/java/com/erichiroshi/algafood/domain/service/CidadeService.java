@@ -1,8 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
+import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
-import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.CidadeRepository;
@@ -32,17 +31,12 @@ public class CidadeService {
 
     public Cidade findById(Long cidadeId) {
         return repository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format("Não existe um cadastro de cidade com código %d", cidadeId)));
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
     public Cidade salvar(Cidade cidade) {
-        try {
-            Estado estado = estadoService.findById(cidade.getEstado().getId());
-            cidade.setEstado(estado);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
+        Estado estado = estadoService.findById(cidade.getEstado().getId());
+        cidade.setEstado(estado);
         return repository.save(cidade);
     }
 
@@ -62,12 +56,8 @@ public class CidadeService {
         Cidade cidadeAtual = findById(cidadeId);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
-        try {
-            Estado estado = estadoService.findById(cidade.getEstado().getId());
-            cidadeAtual.setEstado(estado);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
+        Estado estado = estadoService.findById(cidade.getEstado().getId());
+        cidadeAtual.setEstado(estado);
         return repository.save(cidadeAtual);
     }
 

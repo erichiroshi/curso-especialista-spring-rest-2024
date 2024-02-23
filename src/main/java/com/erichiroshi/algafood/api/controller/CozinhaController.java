@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
+import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
-import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class CozinhaController {
     public ResponseEntity<Cozinha> buscarId(@PathVariable Long cozinhaId) {
         try {
             return ResponseEntity.ok(service.findById(cozinhaId));
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -46,7 +46,7 @@ public class CozinhaController {
         try {
             Cozinha cozinhaUpdate = service.atualizar(cozinhaId, cozinha);
             return ResponseEntity.ok(cozinhaUpdate);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -57,7 +57,7 @@ public class CozinhaController {
             service.excluir(cozinhaId);
             return ResponseEntity.noContent().build();
 
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
 
         } catch (EntidadeEmUsoExecption e) {
