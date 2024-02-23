@@ -13,7 +13,8 @@ public class StandardError {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime timestamp;
     private Integer status;
-    private String error;
-    private String mensagem;
+    private String type;
+    private String title;
+    private String detail;
     private String path;
 }

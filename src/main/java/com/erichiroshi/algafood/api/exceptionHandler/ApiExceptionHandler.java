@@ -19,24 +19,43 @@ import java.time.LocalDateTime;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex, WebRequest request) {
-        String error = "Entidade não Encontrada.";
-        HttpStatusCode status = HttpStatus.NOT_FOUND;
+    public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex, WebRequest request) {
+
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardErrorType type = StandardErrorType.RECURSO_NAO_ENCONTRADO;
+        String detail = ex.getMessage();
+
+        StandardError error = createStandardErrorBuilder(status, type, detail)
+                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .build();
+
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<?> tratarNegocioException(NegocioException ex, WebRequest request) {
-        String error = "Entidade não Encontrada.";
-        HttpStatusCode status = HttpStatus.BAD_REQUEST;
+    public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardErrorType type = StandardErrorType.ERRO_NEGOCIO;
+        String detail = ex.getMessage();
+
+        StandardError error = createStandardErrorBuilder(status, type, detail)
+                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .build();
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(EntidadeEmUsoExecption.class)
-    public ResponseEntity<?> tratarEntidadeEmUsoExecption(EntidadeEmUsoExecption ex, WebRequest request) {
-        String error = "Entidade em uso.";
-        HttpStatusCode status = HttpStatus.CONFLICT;
+    public ResponseEntity<?> handleEntidadeEmUsoExecption(EntidadeEmUsoExecption ex, WebRequest request) {
+
+        HttpStatus status = HttpStatus.CONFLICT;
+        StandardErrorType type = StandardErrorType.ENTIDADE_EM_USO;
+        String detail = ex.getMessage();
+
+        StandardError error = createStandardErrorBuilder(status, type, detail)
+                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .build();
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
@@ -49,8 +68,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             body = StandardError.builder()
                     .timestamp(LocalDateTime.now())
                     .status(statusCode.value())
-                    .error(HttpStatus.valueOf(statusCode.value()).getReasonPhrase())
-                    .mensagem(ex.getMessage())
+                    .title(HttpStatus.valueOf(statusCode.value()).getReasonPhrase())
+                    .detail(ex.getMessage())
                     .path(((ServletWebRequest) request).getRequest().getRequestURI())
                     .build();
 
@@ -58,13 +77,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             body = StandardError.builder()
                     .timestamp(LocalDateTime.now())
                     .status(statusCode.value())
-                    .error((String) body)
-                    .mensagem(ex.getMessage())
+                    .title((String) body)
+                    .detail(ex.getMessage())
                     .path(((ServletWebRequest) request).getRequest().getRequestURI())
                     .build();
         }
 
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
+    }
+
+    private StandardError.StandardErrorBuilder createStandardErrorBuilder(HttpStatus status, StandardErrorType type, String detail) {
+
+        return StandardError.builder()
+                .timestamp(LocalDateTime.now())
+                .status(status.value())
+                .type(type.getUri())
+                .title(type.getTitle())
+                .detail(detail);
     }
 
 
