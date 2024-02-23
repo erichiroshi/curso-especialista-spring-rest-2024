@@ -5,7 +5,6 @@ import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.EstadoRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ public class EstadoService {
 
     private final EstadoRepository repository;
 
-    @Autowired
     public EstadoService(EstadoRepository repository) {
         this.repository = repository;
     }

@@ -8,7 +8,6 @@ import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.CidadeRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,6 @@ public class CidadeService {
 
     private final EstadoService estadoService;
 
-    @Autowired
     public CidadeService(CidadeRepository repository, EstadoService estadoService) {
         this.repository = repository;
         this.estadoService = estadoService;

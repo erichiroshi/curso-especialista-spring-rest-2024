@@ -5,7 +5,6 @@ import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ public class CozinhaService {
 
     private final CozinhaRepository repository;
 
-    @Autowired
     public CozinhaService(CozinhaRepository repository) {
         this.repository = repository;
     }

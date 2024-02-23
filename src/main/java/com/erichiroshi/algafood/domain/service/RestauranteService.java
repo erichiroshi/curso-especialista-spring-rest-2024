@@ -8,7 +8,6 @@ import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -23,7 +22,6 @@ public class RestauranteService {
 
     private final CozinhaService cozinhaService;
 
-    @Autowired
     public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService) {
         this.repository = repository;
         this.cozinhaService = cozinhaService;

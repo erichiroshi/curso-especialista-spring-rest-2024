@@ -2,7 +2,6 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.service.CozinhaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ public class CozinhaController {
 
     private final CozinhaService service;
 
-    @Autowired
     public CozinhaController(CozinhaService service) {
         this.service = service;
     }
