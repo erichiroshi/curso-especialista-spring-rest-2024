@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DatabaseMigrationSettings" lastSelectedDirectory="src\main\resources\db\migration" />
+  <component name="JpaLiquibaseChangesConfig">
+    <exclude-change idName="restaurante#endereco_bairro" tagName="modifyDataType" />
+    <exclude-change idName="restaurante#endereco_cep" tagName="modifyDataType" />
+    <exclude-change idName="restaurante#endereco_complemento" tagName="modifyDataType" />
+    <exclude-change idName="restaurante#endereco_logradouro" tagName="modifyDataType" />
+    <exclude-change idName="restaurante#endereco_numero" tagName="modifyDataType" />
+    <exclude-change idName="cidade#nome" tagName="modifyDataType" />
+    <exclude-change idName="grupo#nome" tagName="modifyDataType" />
+    <exclude-change idName="permissao#nome" tagName="modifyDataType" />
+    <exclude-change idName="produto#nome" tagName="modifyDataType" />
+    <exclude-change idName="restaurante#nome" tagName="modifyDataType" />
+    <exclude-change idName="usuario#nome" tagName="modifyDataType" />
+    <exclude-change idName="produto#preco" tagName="modifyDataType" />
+    <exclude-change idName="restaurante#taxa_frete" tagName="modifyDataType" />
+    <exclude-change idName="estado#nome" tagName="modifyDataType" />
+    <exclude-change idName="cozinha#nome" tagName="modifyDataType" />
+  </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>
       <persistence-unit name="Default">

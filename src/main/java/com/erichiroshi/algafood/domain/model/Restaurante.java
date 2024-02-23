@@ -36,10 +36,6 @@ public class Restaurante {
     private Endereco endereco;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "restaurante")
-    private List<Produto> produtos = new ArrayList<>();
-
-    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "dateTime")
     private LocalDateTime dataCadastro;
@@ -49,10 +45,14 @@ public class Restaurante {
     @Column(nullable = false, columnDefinition = "dateTime")
     private LocalDateTime dataAtualizacao;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
 }
