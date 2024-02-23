@@ -1,7 +1,5 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,41 +28,25 @@ public class RestauranteController {
 
     @GetMapping("/{restauranteId}")
     public ResponseEntity<Restaurante> buscarId(@PathVariable Long restauranteId) {
-        try {
-            Restaurante restaurante = service.findById(restauranteId);
-            return ResponseEntity.ok(restaurante);
-
-        } catch (RestauranteNaoEncontradoException e) {
-            return ResponseEntity.notFound().build();
-        }
+        Restaurante restaurante = service.findById(restauranteId);
+        return ResponseEntity.ok(restaurante);
     }
 
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody Restaurante restaurante) {
-        try {
-            restaurante = service.salvar(restaurante);
-            return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
-
-        } catch (CozinhaNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        restaurante = service.salvar(restaurante);
+        return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
     }
 
     @PutMapping("/{restauranteId}")
     public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
-        try {
-            restaurante = service.atualizar(restauranteId, restaurante);
-            return ResponseEntity.ok(restaurante);
-        } catch (RestauranteNaoEncontradoException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-
-        } catch (CozinhaNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        restaurante = service.atualizar(restauranteId, restaurante);
+        return ResponseEntity.ok(restaurante);
     }
 
     @PatchMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
+    public ResponseEntity<Restaurante> atualizarParcial(
+            @PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
         Restaurante updated = service.atualizarParcial(restauranteId, campos);
         return ResponseEntity.ok(updated);
     }

@@ -1,5 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
+import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.model.Restaurante;
@@ -37,18 +39,27 @@ public class RestauranteService {
     }
 
     public Restaurante salvar(Restaurante restaurante) {
-        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
-        restaurante.setCozinha(cozinha);
+        try {
+            Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            restaurante.setCozinha(cozinha);
+        } catch (CozinhaNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+
         return repository.save(restaurante);
     }
 
     public Restaurante atualizar(Long restauranteId, Restaurante restaurante) {
         Restaurante restauranteAtual = findById(restauranteId);
 
-        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
-        BeanUtils.copyProperties(restaurante, restauranteAtual,
-                "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-        restauranteAtual.setCozinha(cozinha);
+        try {
+            Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            BeanUtils.copyProperties(restaurante, restauranteAtual,
+                    "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+            restauranteAtual.setCozinha(cozinha);
+        } catch (CozinhaNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
         return repository.save(restauranteAtual);
     }
 

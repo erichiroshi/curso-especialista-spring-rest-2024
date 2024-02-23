@@ -1,8 +1,5 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
-import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,47 +27,24 @@ public class CidadeController {
 
     @GetMapping("/{cidadeId}")
     public ResponseEntity<?> buscarId(@PathVariable Long cidadeId) {
-        try {
-            return ResponseEntity.ok(service.findById(cidadeId));
-        } catch (CidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        return ResponseEntity.ok(service.findById(cidadeId));
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
-        try {
-            cidade = service.salvar(cidade);
-            return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
-        } catch (EstadoNaoEncontradoException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Cidade> adicionar(@RequestBody Cidade cidade) {
+        cidade = service.salvar(cidade);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
     }
 
     @PutMapping("/{cidadeId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
-        try {
-            Cidade update = service.atualizar(cidadeId, cidade);
-            return ResponseEntity.ok(update);
-
-        } catch (CidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EstadoNaoEncontradoException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Cidade> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
+        Cidade cidadeUpdate = service.atualizar(cidadeId, cidade);
+        return ResponseEntity.ok(cidadeUpdate);
     }
 
     @DeleteMapping("/{cidadeId}")
-    public ResponseEntity<?> remover(@PathVariable Long cidadeId) {
-        try {
-            service.excluir(cidadeId);
-            return ResponseEntity.noContent().build();
-
-        } catch (CidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-
-        } catch (EntidadeEmUsoExecption e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    public ResponseEntity<Void> remover(@PathVariable Long cidadeId) {
+        service.excluir(cidadeId);
+        return ResponseEntity.noContent().build();
     }
 }

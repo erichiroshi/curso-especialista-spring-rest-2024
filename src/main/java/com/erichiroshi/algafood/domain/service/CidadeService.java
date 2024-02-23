@@ -2,6 +2,8 @@ package com.erichiroshi.algafood.domain.service;
 
 import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
+import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
+import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.CidadeRepository;
@@ -35,8 +37,13 @@ public class CidadeService {
     }
 
     public Cidade salvar(Cidade cidade) {
-        Estado estado = estadoService.findById(cidade.getEstado().getId());
-        cidade.setEstado(estado);
+        try {
+            Estado estado = estadoService.findById(cidade.getEstado().getId());
+            cidade.setEstado(estado);
+
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
         return repository.save(cidade);
     }
 
@@ -56,8 +63,12 @@ public class CidadeService {
         Cidade cidadeAtual = findById(cidadeId);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
-        Estado estado = estadoService.findById(cidade.getEstado().getId());
-        cidadeAtual.setEstado(estado);
+        try {
+            Estado estado = estadoService.findById(cidade.getEstado().getId());
+            cidadeAtual.setEstado(estado);
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
         return repository.save(cidadeAtual);
     }
 

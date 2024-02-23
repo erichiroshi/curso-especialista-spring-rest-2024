@@ -29,11 +29,7 @@ public class EstadoController {
 
     @GetMapping("/{estadoId}")
     public ResponseEntity<?> buscarId(@PathVariable Long estadoId) {
-        try {
-            return ResponseEntity.ok(service.findById(estadoId));
-        } catch (EstadoNaoEncontradoException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        return ResponseEntity.ok(service.findById(estadoId));
     }
 
     @PostMapping

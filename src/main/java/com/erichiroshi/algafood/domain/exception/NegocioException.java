@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.domain.exception;
 
-public abstract class NegocioException extends RuntimeException {
+public class NegocioException extends RuntimeException {
 
     public NegocioException(String message) {
         super(message);

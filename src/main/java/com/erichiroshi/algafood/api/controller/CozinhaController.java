@@ -1,7 +1,5 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,39 +27,23 @@ public class CozinhaController {
 
     @GetMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> buscarId(@PathVariable Long cozinhaId) {
-        try {
-            return ResponseEntity.ok(service.findById(cozinhaId));
-        } catch (CozinhaNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(service.findById(cozinhaId));
     }
 
     @PostMapping
     public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha) {
-        return ResponseEntity.created(null).body(service.salvar(cozinha));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(cozinha));
     }
 
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
-        try {
-            Cozinha cozinhaUpdate = service.atualizar(cozinhaId, cozinha);
-            return ResponseEntity.ok(cozinhaUpdate);
-        } catch (CozinhaNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+        Cozinha cozinhaUpdate = service.atualizar(cozinhaId, cozinha);
+        return ResponseEntity.ok(cozinhaUpdate);
     }
 
     @DeleteMapping("/{cozinhaId}")
     public ResponseEntity<Void> remover(@PathVariable Long cozinhaId) {
-        try {
-            service.excluir(cozinhaId);
-            return ResponseEntity.noContent().build();
-
-        } catch (CozinhaNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-
-        } catch (EntidadeEmUsoExecption e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        service.excluir(cozinhaId);
+        return ResponseEntity.noContent().build();
     }
 }
