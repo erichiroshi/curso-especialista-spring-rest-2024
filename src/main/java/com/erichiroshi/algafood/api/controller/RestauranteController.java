@@ -2,6 +2,7 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.service.RestauranteService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +45,8 @@ public class RestauranteController {
 
     @PatchMapping("/{restauranteId}")
     public ResponseEntity<Restaurante> atualizarParcial(
-            @PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
-        Restaurante updated = service.atualizarParcial(restauranteId, campos);
+            @PathVariable Long restauranteId, @RequestBody Map<String, Object> campos, HttpServletRequest request) {
+        Restaurante updated = service.atualizarParcial(restauranteId, campos, request);
         return ResponseEntity.ok(updated);
     }
 }
