@@ -5,6 +5,7 @@ import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,10 +29,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
+        ex.printStackTrace();
+
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
         if (rootCause instanceof InvalidFormatException) {
             return handleInvalidFormatException((InvalidFormatException) rootCause, headers, (HttpStatus) status, request);
+        } else if (rootCause instanceof PropertyBindingException) {
+            return handlePropertyBinding((PropertyBindingException) rootCause, headers, (HttpStatus) status, request);
         }
 
         StandardErrorType errorType = StandardErrorType.MENSAGEM_INCOMPREENSIVEL;
@@ -42,6 +47,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+    }
+
+    private ResponseEntity<Object> handlePropertyBinding(PropertyBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String path = joinPath(ex.getPath());
+
+        StandardErrorType problemType = StandardErrorType.MENSAGEM_INCOMPREENSIVEL;
+        String detail = String.format("A propriedade '%s' não existe. Corrija ou remova essa propriedade e tente novamente.", path);
+
+        StandardError error = createStandardErrorBuilder(status, problemType, detail)
+                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .build();
+
+        return handleExceptionInternal(ex, error, headers, status, request);
     }
 
     private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
