@@ -19,4 +19,6 @@ public class StandardError {
     private String title;
     private String detail;
     private String path;
+
+    private String userMessage;
 }

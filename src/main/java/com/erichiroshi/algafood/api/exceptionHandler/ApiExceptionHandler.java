@@ -29,6 +29,9 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. Tente novamente e"
+            + " se o problema persistir, entre em contato com o administrador do sistema.";
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -42,7 +45,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         // para você durante, especialmente na fase de desenvolvimento
         ex.printStackTrace();
 
-        StandardError error = createStandardErrorBuilder(status, errorType, detail).build();
+        StandardError error = createStandardErrorBuilder(status, errorType, detail)
+                .userMessage(detail)
+                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .build();
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
@@ -53,6 +59,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", ex.getRequestURL());
 
         StandardError error = createStandardErrorBuilder(status, errorType, detail)
+                .userMessage(detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -75,6 +82,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 ex.getName(), ex.getValue(), Objects.requireNonNull(ex.getRequiredType()).getSimpleName());
 
         StandardError error = createStandardErrorBuilder(status, errorType, detail)
+                .userMessage(detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -97,6 +105,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
 
         StandardError error = createStandardErrorBuilder(status, errorType, detail)
+                .userMessage(detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -111,6 +120,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("A propriedade '%s' não existe. Corrija ou remova essa propriedade e tente novamente.", path);
 
         StandardError error = createStandardErrorBuilder(status, problemType, detail)
+                .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -125,6 +135,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 path, ex.getValue(), ex.getTargetType().getSimpleName());
 
         StandardError error = createStandardErrorBuilder(status, errorType, detail)
+                .userMessage(detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -139,6 +150,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
 
         StandardError error = createStandardErrorBuilder(status, type, detail)
+                .userMessage(detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -153,6 +165,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
 
         StandardError error = createStandardErrorBuilder(status, type, detail)
+                .userMessage(detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -167,6 +180,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
 
         StandardError error = createStandardErrorBuilder(status, type, detail)
+                .userMessage(detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
@@ -182,7 +196,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .timestamp(LocalDateTime.now())
                     .status(statusCode.value())
                     .title(HttpStatus.valueOf(statusCode.value()).getReasonPhrase())
-                    .detail(ex.getMessage())
+                    .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
                     .path(((ServletWebRequest) request).getRequest().getRequestURI())
                     .build();
 
@@ -191,7 +205,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .timestamp(LocalDateTime.now())
                     .status(statusCode.value())
                     .title((String) body)
-                    .detail(ex.getMessage())
+                    .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
                     .path(((ServletWebRequest) request).getRequest().getRequestURI())
                     .build();
         }
@@ -199,13 +213,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
 
-    private StandardError.StandardErrorBuilder createStandardErrorBuilder(HttpStatusCode status, StandardErrorType type, String detail) {
+    private StandardError.StandardErrorBuilder createStandardErrorBuilder(HttpStatusCode status, StandardErrorType errorType, String detail) {
 
         return StandardError.builder()
                 .timestamp(LocalDateTime.now())
                 .status(status.value())
-                .type(type.getUri())
-                .title(type.getTitle())
+                .type(errorType.getUri())
+                .title(errorType.getTitle())
                 .detail(detail);
     }
 
