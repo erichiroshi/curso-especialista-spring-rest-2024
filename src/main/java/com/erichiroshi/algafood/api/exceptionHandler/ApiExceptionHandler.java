@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
@@ -29,14 +30,25 @@ import java.util.stream.Collectors;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        StandardErrorType errorType = StandardErrorType.RECURSO_NAO_ENCONTRADO;
+        String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", ex.getRequestURL());
+
+        StandardError error = createStandardErrorBuilder(status, errorType, detail)
+                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .build();
+
+        return handleExceptionInternal(ex, error, headers, status, request);    }
+
+    @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         if (ex instanceof MethodArgumentTypeMismatchException) {
-            return handleMethodArgumentTypeMismatch((MethodArgumentTypeMismatchException) ex, headers, (HttpStatus) status, request);
+            return handleMethodArgumentTypeMismatch((MethodArgumentTypeMismatchException) ex, headers, status, request);
         }
         return super.handleTypeMismatch(ex, headers, status, request);
     }
 
-    private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         StandardErrorType errorType = StandardErrorType.PARAMETRO_INVALIDO;
         String detail = String.format(
@@ -57,22 +69,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
         if (rootCause instanceof InvalidFormatException) {
-            return handleInvalidFormatException((InvalidFormatException) rootCause, headers, (HttpStatus) status, request);
+            return handleInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
         } else if (rootCause instanceof PropertyBindingException) {
-            return handlePropertyBinding((PropertyBindingException) rootCause, headers, (HttpStatus) status, request);
+            return handlePropertyBinding((PropertyBindingException) rootCause, headers, status, request);
         }
 
         StandardErrorType errorType = StandardErrorType.MENSAGEM_INCOMPREENSIVEL;
         String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
 
-        StandardError error = createStandardErrorBuilder((HttpStatus) status, errorType, detail)
+        StandardError error = createStandardErrorBuilder(status, errorType, detail)
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .build();
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
-    private ResponseEntity<Object> handlePropertyBinding(PropertyBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handlePropertyBinding(PropertyBindingException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         String path = joinPath(ex.getPath());
 
@@ -86,7 +98,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, error, headers, status, request);
     }
 
-    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String path = joinPath(ex.getPath());
 
         StandardErrorType errorType = StandardErrorType.MENSAGEM_INCOMPREENSIVEL;
@@ -101,9 +113,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex, WebRequest request) {
+    public ResponseEntity<?> handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException ex, WebRequest request) {
 
-        HttpStatus status = HttpStatus.NOT_FOUND;
+        HttpStatusCode status = HttpStatus.NOT_FOUND;
         StandardErrorType type = StandardErrorType.RECURSO_NAO_ENCONTRADO;
         String detail = ex.getMessage();
 
@@ -115,9 +127,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request) {
+    public ResponseEntity<?> handleNegocio(NegocioException ex, WebRequest request) {
 
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatusCode status = HttpStatus.BAD_REQUEST;
         StandardErrorType type = StandardErrorType.ERRO_NEGOCIO;
         String detail = ex.getMessage();
 
@@ -129,9 +141,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntidadeEmUsoExecption.class)
-    public ResponseEntity<?> handleEntidadeEmUsoExecption(EntidadeEmUsoExecption ex, WebRequest request) {
+    public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoExecption ex, WebRequest request) {
 
-        HttpStatus status = HttpStatus.CONFLICT;
+        HttpStatusCode status = HttpStatus.CONFLICT;
         StandardErrorType type = StandardErrorType.ENTIDADE_EM_USO;
         String detail = ex.getMessage();
 
@@ -168,7 +180,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
 
-    private StandardError.StandardErrorBuilder createStandardErrorBuilder(HttpStatus status, StandardErrorType type, String detail) {
+    private StandardError.StandardErrorBuilder createStandardErrorBuilder(HttpStatusCode status, StandardErrorType type, String detail) {
 
         return StandardError.builder()
                 .timestamp(LocalDateTime.now())
