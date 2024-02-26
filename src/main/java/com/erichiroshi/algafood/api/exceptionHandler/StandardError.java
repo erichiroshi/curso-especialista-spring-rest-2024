@@ -22,11 +22,11 @@ public class StandardError {
     private String path;
     private String userMessage;
 
-    private List<Field> fields;
+    private List<Object> objects;
 
     @Builder
     @Getter
-    public static class Field {
+    public static class Object {
 
         private String name;
         private String userMessage;
