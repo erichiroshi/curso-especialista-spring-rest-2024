@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
 import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
+import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Cidade;
@@ -52,7 +52,7 @@ public class CidadeService {
             repository.deleteById(cidadeId);
 
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoExecption(
+            throw new EntidadeEmUsoException(
                     String.format("Cidade de código %d não pode ser removida, pois está em uso", cidadeId));
         }
     }

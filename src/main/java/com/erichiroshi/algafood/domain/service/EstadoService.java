@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.domain.service;
 
-import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
+import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.EstadoRepository;
@@ -39,7 +39,7 @@ public class EstadoService {
             repository.deleteById(estadoId);
 
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoExecption(
+            throw new EntidadeEmUsoException(
                     String.format("Estado de código %d não pode ser removida, pois está em uso", estadoId));
         }
     }

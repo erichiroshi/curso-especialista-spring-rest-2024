@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.api.exceptionHandler;
 
 import com.erichiroshi.algafood.core.validation.ValidacaoException;
-import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
+import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
@@ -229,8 +229,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
-    @ExceptionHandler(EntidadeEmUsoExecption.class)
-    public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoExecption ex, WebRequest request) {
+    @ExceptionHandler(EntidadeEmUsoException.class)
+    public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoException ex, WebRequest request) {
 
         HttpStatusCode status = HttpStatus.CONFLICT;
         StandardErrorType type = StandardErrorType.ENTIDADE_EM_USO;

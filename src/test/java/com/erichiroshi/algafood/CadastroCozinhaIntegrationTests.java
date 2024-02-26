@@ -1,5 +1,7 @@
 package com.erichiroshi.algafood;
 
+import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.service.CozinhaService;
 import jakarta.validation.ConstraintViolationException;
@@ -17,7 +19,7 @@ public class CadastroCozinhaIntegrationTests {
     private CozinhaService cozinhaService;
 
     @Test
-    public void testarCadastroCozinhaComSucesso() {
+    public void deveAtribuirId_QuandoCadastrarCozinhaComDadosCorretos() {
         // cenário
         Cozinha novaCozinha = new Cozinha();
         novaCozinha.setNome("Chinesa");
@@ -31,13 +33,35 @@ public class CadastroCozinhaIntegrationTests {
     }
 
     @Test
-    public void testarCadastroCozinhaSemNome() {
+    public void deveFalhar_QuandoCadastrarCozinhaSemNome() {
         Cozinha novaCozinha = new Cozinha();
         novaCozinha.setNome(null);
 
         ConstraintViolationException erroEsperado =
                 Assertions.assertThrows(ConstraintViolationException.class, () -> {
                     cozinhaService.salvar(novaCozinha);
+                });
+
+        assertThat(erroEsperado).isNotNull();
+    }
+
+    @Test
+    public void deveFalhar_QuandoExcluirCozinhaEmUso() {
+
+        EntidadeEmUsoException erroEsperado =
+                Assertions.assertThrows(EntidadeEmUsoException.class, () -> {
+                    cozinhaService.excluir(1L);
+                });
+
+        assertThat(erroEsperado).isNotNull();
+    }
+
+    @Test
+    public void deveFalhar_QuandoExcluirCozinhaInexistente() {
+
+        CozinhaNaoEncontradaException erroEsperado =
+                Assertions.assertThrows(CozinhaNaoEncontradaException.class, () -> {
+                    cozinhaService.excluir(100L);
                 });
 
         assertThat(erroEsperado).isNotNull();

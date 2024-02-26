@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
+import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.service.EstadoService;
@@ -56,7 +56,7 @@ public class EstadoController {
         } catch (EstadoNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
-        } catch (EntidadeEmUsoExecption e) {
+        } catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }

@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
 import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
-import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
+import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.BeanUtils;
@@ -39,7 +39,7 @@ public class CozinhaService {
             repository.deleteById(cozinhaId);
 
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoExecption(
+            throw new EntidadeEmUsoException(
                     String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId));
         }
     }
