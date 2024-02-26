@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.domain.model;
 
-import com.erichiroshi.algafood.groups.Groups;
+import com.erichiroshi.algafood.core.validation.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;

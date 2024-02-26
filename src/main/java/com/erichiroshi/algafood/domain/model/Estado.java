@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.domain.model;
 
-import com.erichiroshi.algafood.groups.Groups;
+import com.erichiroshi.algafood.core.validation.Groups;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
