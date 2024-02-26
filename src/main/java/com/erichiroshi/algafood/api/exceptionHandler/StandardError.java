@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
@@ -19,6 +20,15 @@ public class StandardError {
     private String title;
     private String detail;
     private String path;
-
     private String userMessage;
+
+    private List<Field> fields;
+
+    @Builder
+    @Getter
+    public static class Field {
+
+        private String name;
+        private String userMessage;
+    }
 }

@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,14 +35,36 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. Tente novamente e"
             + " se o problema persistir, entre em contato com o administrador do sistema.";
 
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        return handleValidationInternal(ex, ex.getBindingResult(), headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         StandardErrorType errorType = StandardErrorType.DADOS_INVALIDOS;
-        String detail = "Um ou mais campos estão inválidos. Faça o preenchimeno correto e ttene novamente.";
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+
+        List<StandardError.Field> errorFields = bindingResult.getAllErrors().stream()
+                .map(objectError -> {
+                    String message = objectError.getDefaultMessage();
+
+                    String name = objectError.getObjectName();
+
+                    if (objectError instanceof FieldError) {
+                        name = ((FieldError) objectError).getField();
+                    }
+
+                    return StandardError.Field.builder()
+                            .name(name)
+                            .userMessage(message)
+                            .build();
+                })
+                .toList();
 
         StandardError error = createStandardErrorBuilder(status, errorType, detail)
                 .userMessage(detail)
-                .path(((ServletWebRequest) request).getRequest().getRequestURI())
+                .fields(errorFields)
                 .build();
 
         return handleExceptionInternal(ex, error, headers, status, request);
