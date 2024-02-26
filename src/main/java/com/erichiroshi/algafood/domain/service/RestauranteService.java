@@ -1,5 +1,6 @@
 package com.erichiroshi.algafood.domain.service;
 
+import com.erichiroshi.algafood.core.validation.ValidacaoException;
 import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.exception.RestauranteNaoEncontradoException;
@@ -15,6 +16,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -27,9 +30,12 @@ public class RestauranteService {
 
     private final CozinhaService cozinhaService;
 
-    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService) {
+    private final SmartValidator validator;
+
+    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService, SmartValidator validator) {
         this.repository = repository;
         this.cozinhaService = cozinhaService;
+        this.validator = validator;
     }
 
     public List<Restaurante> findAll() {
@@ -70,8 +76,18 @@ public class RestauranteService {
         Restaurante restauranteAtual = findById(restauranteId);
 
         merge(campos, restauranteAtual, request);
+        validate(restauranteAtual, "restaurante");
 
         return atualizar(restauranteId, restauranteAtual);
+    }
+
+    private void validate(Restaurante restaurante, String objectName) {
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, objectName);
+        validator.validate(restaurante, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidacaoException(bindingResult);
+        }
     }
 
     private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino, HttpServletRequest request) {

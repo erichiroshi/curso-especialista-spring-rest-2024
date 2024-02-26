@@ -1,7 +1,6 @@
 package com.erichiroshi.algafood.domain.model;
 
 import com.erichiroshi.algafood.core.validation.Groups;
-import com.erichiroshi.algafood.core.validation.Multiplo;
 import com.erichiroshi.algafood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -37,7 +36,6 @@ public class Restaurante {
 
     @NotNull
     @PositiveOrZero
-    @Multiplo(numero = 5)
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
