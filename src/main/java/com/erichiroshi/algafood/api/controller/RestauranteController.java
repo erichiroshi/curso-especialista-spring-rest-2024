@@ -3,6 +3,7 @@ package com.erichiroshi.algafood.api.controller;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.service.RestauranteService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class RestauranteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody Restaurante restaurante) {
+    public ResponseEntity<?> insert(@Valid @RequestBody Restaurante restaurante) {
         restaurante = service.salvar(restaurante);
         return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
     }
