@@ -39,7 +39,7 @@ public class RestauranteController {
     }
 
     @PutMapping("/{restauranteId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
+    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @Valid @RequestBody Restaurante restaurante) {
         restaurante = service.atualizar(restauranteId, restaurante);
         return ResponseEntity.ok(restaurante);
     }

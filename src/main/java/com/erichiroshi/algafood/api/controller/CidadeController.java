@@ -2,6 +2,7 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.service.CidadeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +30,13 @@ public class CidadeController {
     }
 
     @PostMapping
-    public ResponseEntity<Cidade> adicionar(@RequestBody Cidade cidade) {
+    public ResponseEntity<Cidade> adicionar(@Valid @RequestBody Cidade cidade) {
         cidade = service.salvar(cidade);
         return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
     }
 
     @PutMapping("/{cidadeId}")
-    public ResponseEntity<Cidade> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
+    public ResponseEntity<Cidade> atualizar(@PathVariable Long cidadeId, @Valid @RequestBody Cidade cidade) {
         Cidade cidadeUpdate = service.atualizar(cidadeId, cidade);
         return ResponseEntity.ok(cidadeUpdate);
     }

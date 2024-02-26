@@ -35,7 +35,7 @@ public class CozinhaController {
     }
 
     @PutMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
+    public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @Valid @RequestBody Cozinha cozinha) {
         Cozinha cozinhaUpdate = service.atualizar(cozinhaId, cozinha);
         return ResponseEntity.ok(cozinhaUpdate);
     }

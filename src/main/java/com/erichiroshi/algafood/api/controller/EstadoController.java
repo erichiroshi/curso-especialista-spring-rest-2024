@@ -4,6 +4,7 @@ import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoExecption;
 import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.service.EstadoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +32,13 @@ public class EstadoController {
     }
 
     @PostMapping
-    public ResponseEntity<Estado> adicionar(@RequestBody Estado estado) {
+    public ResponseEntity<Estado> adicionar(@Valid @RequestBody Estado estado) {
         estado = service.salvar(estado);
         return ResponseEntity.status(HttpStatus.CREATED).body(estado);
     }
 
     @PutMapping("/{estadoId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
+    public ResponseEntity<?> atualizar(@PathVariable Long estadoId, @Valid @RequestBody Estado estado) {
         try {
             Estado update = service.atualizar(estadoId, estado);
             return ResponseEntity.ok(update);
