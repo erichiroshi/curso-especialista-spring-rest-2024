@@ -2,7 +2,9 @@ package com.erichiroshi.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,6 +33,8 @@ public class Restaurante {
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
+    @Valid
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
