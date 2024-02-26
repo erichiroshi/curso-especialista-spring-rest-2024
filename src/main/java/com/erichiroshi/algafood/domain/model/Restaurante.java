@@ -2,6 +2,7 @@ package com.erichiroshi.algafood.domain.model;
 
 import com.erichiroshi.algafood.core.validation.Groups;
 import com.erichiroshi.algafood.core.validation.Multiplo;
+import com.erichiroshi.algafood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
