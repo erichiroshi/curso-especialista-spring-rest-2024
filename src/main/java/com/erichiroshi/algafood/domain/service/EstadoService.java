@@ -1,10 +1,12 @@
 package com.erichiroshi.algafood.domain.service;
 
+import com.erichiroshi.algafood.api.dtos.inputs.EstadoInputDto;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.EstadoRepository;
-import org.springframework.beans.BeanUtils;
+import com.erichiroshi.algafood.mappers.EstadoMapper;
+import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +17,11 @@ import java.util.List;
 public class EstadoService {
 
     private final EstadoRepository repository;
+    private EstadoMapper mapper;
 
-    public EstadoService(EstadoRepository repository) {
+    public EstadoService(EstadoRepository repository, EstadoMapper estadoMapper) {
         this.repository = repository;
+        this.mapper = estadoMapper;
     }
 
     @Transactional(readOnly = true)
@@ -42,6 +46,7 @@ public class EstadoService {
 
         try {
             repository.deleteById(estadoId);
+            repository.flush();
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
@@ -50,9 +55,10 @@ public class EstadoService {
     }
 
     @Transactional
-    public Estado atualizar(Long estadoId, Estado estado) {
+    public Estado atualizar(Long estadoId, @Valid EstadoInputDto estadoInputDto) {
         Estado estadoAtual = findById(estadoId);
-        BeanUtils.copyProperties(estado, estadoAtual, "id");
+        estadoAtual = mapper.partialUpdate(estadoInputDto, estadoAtual);
+
         return repository.save(estadoAtual);
     }
 

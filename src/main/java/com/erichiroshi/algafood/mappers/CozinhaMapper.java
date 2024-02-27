@@ -1,6 +1,7 @@
 package com.erichiroshi.algafood.mappers;
 
 import com.erichiroshi.algafood.api.dtos.CozinhaDto;
+import com.erichiroshi.algafood.api.dtos.inputs.CozinhaInputDto;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import org.mapstruct.*;
 
@@ -12,4 +13,11 @@ public interface CozinhaMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Cozinha partialUpdate(CozinhaDto cozinhaDto, @MappingTarget Cozinha cozinha);
+
+    Cozinha toEntity(CozinhaInputDto cozinhaInputDto);
+
+    CozinhaInputDto toDto1(Cozinha cozinha);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Cozinha partialUpdate(CozinhaInputDto cozinhaInputDto, @MappingTarget Cozinha cozinha);
 }

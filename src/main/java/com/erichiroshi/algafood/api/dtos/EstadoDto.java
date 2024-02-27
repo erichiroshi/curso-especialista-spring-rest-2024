@@ -3,9 +3,9 @@ package com.erichiroshi.algafood.api.dtos;
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.erichiroshi.algafood.domain.model.Cozinha}
+ * DTO for {@link com.erichiroshi.algafood.domain.model.Estado}
  */
-public record CozinhaDto(
+public record EstadoDto(
 
         Long id,
         String nome

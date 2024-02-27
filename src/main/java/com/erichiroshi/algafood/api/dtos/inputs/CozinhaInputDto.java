@@ -1,13 +1,15 @@
-package com.erichiroshi.algafood.api.dtos;
+package com.erichiroshi.algafood.api.dtos.inputs;
+
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 
 /**
  * DTO for {@link com.erichiroshi.algafood.domain.model.Cozinha}
  */
-public record CozinhaDto(
+public record CozinhaInputDto(
 
-        Long id,
+        @NotBlank
         String nome
 
 ) implements Serializable {

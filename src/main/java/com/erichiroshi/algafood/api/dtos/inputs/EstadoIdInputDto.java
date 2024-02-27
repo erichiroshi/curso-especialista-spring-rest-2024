@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.erichiroshi.algafood.domain.model.Cozinha}
+ * DTO for {@link com.erichiroshi.algafood.domain.model.Estado}
  */
-public record CozinhaIdInputDto(
+public record EstadoIdInputDto(
 
         @NotNull
         Long id

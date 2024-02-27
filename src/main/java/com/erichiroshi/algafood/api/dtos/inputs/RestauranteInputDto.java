@@ -14,6 +14,7 @@ import java.math.BigDecimal;
  */
 @ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 public record RestauranteInputDto(
+
         @NotBlank
         String nome,
 

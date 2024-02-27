@@ -1,5 +1,6 @@
 package com.erichiroshi.algafood.domain.service;
 
+import com.erichiroshi.algafood.api.dtos.inputs.CidadeInputDto;
 import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
@@ -7,7 +8,7 @@ import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.CidadeRepository;
-import org.springframework.beans.BeanUtils;
+import com.erichiroshi.algafood.mappers.CidadeMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,12 @@ public class CidadeService {
 
     private final EstadoService estadoService;
 
-    public CidadeService(CidadeRepository repository, EstadoService estadoService) {
+    private final CidadeMapper mapper;
+
+    public CidadeService(CidadeRepository repository, EstadoService estadoService, CidadeMapper mapper) {
         this.repository = repository;
         this.estadoService = estadoService;
+        this.mapper = mapper;
     }
 
     @Transactional(readOnly = true)
@@ -55,6 +59,7 @@ public class CidadeService {
 
         try {
             repository.deleteById(cidadeId);
+            repository.flush();
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
@@ -63,13 +68,15 @@ public class CidadeService {
     }
 
     @Transactional
-    public Cidade atualizar(Long cidadeId, Cidade cidade) {
+    public Cidade atualizar(Long cidadeId, CidadeInputDto cidadeInputDto) {
         Cidade cidadeAtual = findById(cidadeId);
-        BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
         try {
-            Estado estado = estadoService.findById(cidade.getEstado().getId());
+            mapper.partialUpdate(cidadeInputDto, cidadeAtual);
+
+            Estado estado = estadoService.findById(cidadeInputDto.estado().id());
             cidadeAtual.setEstado(estado);
+
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }

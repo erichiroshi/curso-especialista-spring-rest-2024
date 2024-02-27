@@ -1,10 +1,12 @@
 package com.erichiroshi.algafood.domain.service;
 
+import com.erichiroshi.algafood.api.dtos.inputs.CozinhaInputDto;
 import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
-import org.springframework.beans.BeanUtils;
+import com.erichiroshi.algafood.mappers.CozinhaMapper;
+import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +18,11 @@ public class CozinhaService {
 
     private final CozinhaRepository repository;
 
-    public CozinhaService(CozinhaRepository repository) {
+    private final CozinhaMapper mapper;
+
+    public CozinhaService(CozinhaRepository repository, CozinhaMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Transactional(readOnly = true)
@@ -51,9 +56,10 @@ public class CozinhaService {
     }
 
     @Transactional
-    public Cozinha atualizar(Long cozinhaId, Cozinha cozinha) {
+    public Cozinha atualizar(Long cozinhaId, @Valid CozinhaInputDto cozinhaInputDto) {
         Cozinha cozinhaAtual = findById(cozinhaId);
-        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+        cozinhaAtual = mapper.partialUpdate(cozinhaInputDto, cozinhaAtual);
+
         return repository.save(cozinhaAtual);
     }
 
