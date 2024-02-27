@@ -1,11 +1,11 @@
 package com.erichiroshi.algafood.api.exceptionHandler;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,8 +13,8 @@ import java.util.List;
 @Getter
 public class StandardError {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime timestamp;
+    @CreationTimestamp
+    private OffsetDateTime timestamp;
     private Integer status;
     private String type;
     private String title;

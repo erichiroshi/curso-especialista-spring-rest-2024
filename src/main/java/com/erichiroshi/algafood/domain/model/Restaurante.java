@@ -15,7 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,11 +50,11 @@ public class Restaurante {
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "dateTime")
-    private LocalDateTime dataCadastro;
+    private OffsetDateTime dataCadastro;
 
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "dateTime")
-    private LocalDateTime dataAtualizacao;
+    private OffsetDateTime dataAtualizacao;
 
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
