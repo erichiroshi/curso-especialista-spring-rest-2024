@@ -12,7 +12,8 @@ public record RestauranteDto(
         String nome,
         BigDecimal taxaFrete,
         CozinhaDto cozinha,
-        Boolean ativo
+        Boolean ativo,
+        EnderecoDto endereco
 
 ) implements Serializable {
 }

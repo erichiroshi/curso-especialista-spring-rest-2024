@@ -7,11 +7,15 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RestauranteMapper {
+
+    @Mapping(source = "endereco.cidade.estado", target = "endereco.cidade.estado.nome")
     Restaurante toEntity(RestauranteDto restauranteDto);
 
+    @Mapping(source = "endereco.cidade.estado.nome", target = "endereco.cidade.estado")
     RestauranteDto toDto(Restaurante restaurante);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "endereco.cidade.estado", target = "endereco.cidade.estado.nome")
     Restaurante update(RestauranteDto restauranteDto, @MappingTarget Restaurante restaurante);
 
     Restaurante toEntity(RestauranteInputDto restauranteInputDto);
