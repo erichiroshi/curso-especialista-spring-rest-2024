@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
@@ -38,15 +39,18 @@ public class RestauranteService {
         this.validator = validator;
     }
 
+    @Transactional(readOnly = true)
     public List<Restaurante> findAll() {
         return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Restaurante findById(Long restauranteId) {
         return repository.findById(restauranteId)
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 
+    @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         try {
             Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
@@ -58,6 +62,7 @@ public class RestauranteService {
         return repository.save(restaurante);
     }
 
+    @Transactional
     public Restaurante atualizar(Long restauranteId, Restaurante restaurante) {
         Restaurante restauranteAtual = findById(restauranteId);
 
@@ -72,6 +77,7 @@ public class RestauranteService {
         return repository.save(restauranteAtual);
     }
 
+    @Transactional
     public Restaurante atualizarParcial(Long restauranteId, Map<String, Object> campos, HttpServletRequest request) {
         Restaurante restauranteAtual = findById(restauranteId);
 

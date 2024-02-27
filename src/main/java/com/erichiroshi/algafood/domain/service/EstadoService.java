@@ -7,6 +7,7 @@ import com.erichiroshi.algafood.domain.repository.EstadoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,19 +20,23 @@ public class EstadoService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     public List<Estado> findAll() {
         return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Estado findById(Long estadoId) {
         return repository.findById(estadoId)
                 .orElseThrow(() -> new EstadoNaoEncontradoException(estadoId));
     }
 
+    @Transactional
     public Estado salvar(Estado estado) {
         return repository.save(estado);
     }
 
+    @Transactional
     public void excluir(Long estadoId) {
         findById(estadoId);
 
@@ -44,6 +49,7 @@ public class EstadoService {
         }
     }
 
+    @Transactional
     public Estado atualizar(Long estadoId, Estado estado) {
         Estado estadoAtual = findById(estadoId);
         BeanUtils.copyProperties(estado, estadoAtual, "id");

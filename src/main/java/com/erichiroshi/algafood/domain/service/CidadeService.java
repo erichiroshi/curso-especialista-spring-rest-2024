@@ -10,6 +10,7 @@ import com.erichiroshi.algafood.domain.repository.CidadeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,15 +26,18 @@ public class CidadeService {
         this.estadoService = estadoService;
     }
 
+    @Transactional(readOnly = true)
     public List<Cidade> findAll() {
         return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Cidade findById(Long cidadeId) {
         return repository.findById(cidadeId)
                 .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
+    @Transactional
     public Cidade salvar(Cidade cidade) {
         try {
             Estado estado = estadoService.findById(cidade.getEstado().getId());
@@ -45,6 +49,7 @@ public class CidadeService {
         return repository.save(cidade);
     }
 
+    @Transactional
     public void excluir(Long cidadeId) {
         findById(cidadeId);
 
@@ -57,6 +62,7 @@ public class CidadeService {
         }
     }
 
+    @Transactional
     public Cidade atualizar(Long cidadeId, Cidade cidade) {
         Cidade cidadeAtual = findById(cidadeId);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");

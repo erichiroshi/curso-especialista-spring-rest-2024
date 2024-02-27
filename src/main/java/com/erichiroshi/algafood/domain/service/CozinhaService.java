@@ -7,6 +7,7 @@ import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,19 +20,23 @@ public class CozinhaService {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     public List<Cozinha> findAll() {
         return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Cozinha findById(Long cozinhaId) {
         return repository.findById(cozinhaId)
                 .orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
     }
 
+    @Transactional
     public Cozinha salvar(Cozinha cozinha) {
         return repository.save(cozinha);
     }
 
+    @Transactional
     public void excluir(Long cozinhaId) {
         findById(cozinhaId);
 
@@ -44,6 +49,7 @@ public class CozinhaService {
         }
     }
 
+    @Transactional
     public Cozinha atualizar(Long cozinhaId, Cozinha cozinha) {
         Cozinha cozinhaAtual = findById(cozinhaId);
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
