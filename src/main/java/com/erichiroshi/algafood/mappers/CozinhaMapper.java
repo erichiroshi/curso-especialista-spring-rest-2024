@@ -7,6 +7,7 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CozinhaMapper {
+	
     Cozinha toEntity(CozinhaDto cozinhaDto);
 
     CozinhaDto toDto(Cozinha cozinha);

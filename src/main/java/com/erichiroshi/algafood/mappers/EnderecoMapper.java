@@ -7,6 +7,7 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {CidadeMapper.class})
 public interface EnderecoMapper {
+	
     @Mapping(source = "cidade.estado", target = "cidade.estado.nome")
     Endereco toEntity(EnderecoDto enderecoDto);
 

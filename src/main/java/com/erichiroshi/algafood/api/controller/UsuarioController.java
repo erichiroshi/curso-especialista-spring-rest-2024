@@ -2,8 +2,8 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.api.dtos.UsuarioDto;
 import com.erichiroshi.algafood.api.dtos.inputs.UsuarioInputDto;
-import com.erichiroshi.algafood.api.dtos.inputs.UsuarioUpdateDto;
 import com.erichiroshi.algafood.api.dtos.inputs.UsuarioSenhaUpdateDto;
+import com.erichiroshi.algafood.api.dtos.inputs.UsuarioUpdateDto;
 import com.erichiroshi.algafood.domain.model.Usuario;
 import com.erichiroshi.algafood.domain.service.UsuarioService;
 import com.erichiroshi.algafood.mappers.UsuarioMapper;

@@ -7,6 +7,7 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface EstadoMapper {
+	
     Estado toEntity(EstadoDto estadoDto);
 
     EstadoDto toDto(Estado estado);

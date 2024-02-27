@@ -7,6 +7,7 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface FormaPagamentoMapper {
+	
     FormaPagamento toEntity(FormaPagamentoDto formaPagamentoDto);
 
     FormaPagamentoDto toDto(FormaPagamento formaPagamento);
