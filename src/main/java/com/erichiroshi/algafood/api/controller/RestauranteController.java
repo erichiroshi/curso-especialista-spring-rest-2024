@@ -1,7 +1,9 @@
 package com.erichiroshi.algafood.api.controller;
 
+import com.erichiroshi.algafood.api.dtos.RestauranteDto;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.service.RestauranteService;
+import com.erichiroshi.algafood.mappers.RestauranteMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,38 +18,42 @@ import java.util.Map;
 public class RestauranteController {
 
     private final RestauranteService service;
+    private final RestauranteMapper restauranteMapper;
 
-    public RestauranteController(RestauranteService service) {
+    public RestauranteController(RestauranteService service,
+                                 RestauranteMapper restauranteMapper) {
         this.service = service;
+        this.restauranteMapper = restauranteMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<Restaurante>> listar() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<RestauranteDto>> listar() {
+        List<Restaurante> list = service.findAll();
+        return ResponseEntity.ok(list.stream().map(restauranteMapper::toDto).toList());
     }
 
     @GetMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> buscarId(@PathVariable Long restauranteId) {
+    public ResponseEntity<RestauranteDto> buscarId(@PathVariable Long restauranteId) {
         Restaurante restaurante = service.findById(restauranteId);
-        return ResponseEntity.ok(restaurante);
+        return ResponseEntity.ok(restauranteMapper.toDto(restaurante));
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionar(@Valid @RequestBody Restaurante restaurante) {
+    public ResponseEntity<RestauranteDto> adicionar(@Valid @RequestBody Restaurante restaurante) {
         restaurante = service.salvar(restaurante);
-        return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
+        return ResponseEntity.status(HttpStatus.CREATED).body(restauranteMapper.toDto(restaurante));
     }
 
     @PutMapping("/{restauranteId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @Valid @RequestBody Restaurante restaurante) {
+    public ResponseEntity<RestauranteDto> atualizar(@PathVariable Long restauranteId, @Valid @RequestBody Restaurante restaurante) {
         restaurante = service.atualizar(restauranteId, restaurante);
-        return ResponseEntity.ok(restaurante);
+        return ResponseEntity.ok(restauranteMapper.toDto(restaurante));
     }
 
     @PatchMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> atualizarParcial(
+    public ResponseEntity<RestauranteDto> atualizarParcial(
             @PathVariable Long restauranteId, @RequestBody Map<String, Object> campos, HttpServletRequest request) {
         Restaurante updated = service.atualizarParcial(restauranteId, campos, request);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(restauranteMapper.toDto(updated));
     }
 }
