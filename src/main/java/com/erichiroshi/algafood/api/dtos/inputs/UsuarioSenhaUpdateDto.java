@@ -5,12 +5,15 @@ import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.erichiroshi.algafood.domain.model.FormaPagamento}
+ * DTO for {@link com.erichiroshi.algafood.domain.model.Usuario}
  */
-public record FormaPagamentoInputDto(
+public record UsuarioSenhaUpdateDto(
 
         @NotBlank
-        String descricao
+        String senhaAtual,
+
+        @NotBlank
+        String novaSenha
 
 ) implements Serializable {
 }
