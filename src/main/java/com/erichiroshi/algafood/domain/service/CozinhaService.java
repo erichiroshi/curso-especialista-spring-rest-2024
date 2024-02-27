@@ -42,6 +42,7 @@ public class CozinhaService {
 
         try {
             repository.deleteById(cozinhaId);
+            repository.flush();
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
