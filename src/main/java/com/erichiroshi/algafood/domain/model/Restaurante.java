@@ -1,6 +1,5 @@
 package com.erichiroshi.algafood.domain.model;
 
-import com.erichiroshi.algafood.core.validation.ValorZeroIncluiDescricao;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +11,6 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity

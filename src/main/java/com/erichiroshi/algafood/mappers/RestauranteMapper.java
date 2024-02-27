@@ -12,12 +12,13 @@ public interface RestauranteMapper {
     RestauranteDto toDto(Restaurante restaurante);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Restaurante partialUpdate(RestauranteDto restauranteDto, @MappingTarget Restaurante restaurante);
+    Restaurante update(RestauranteDto restauranteDto, @MappingTarget Restaurante restaurante);
 
     Restaurante toEntity(RestauranteInputDto restauranteInputDto);
 
     RestauranteInputDto toDto1(Restaurante restaurante);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Restaurante partialUpdate(RestauranteInputDto restauranteInputDto, @MappingTarget Restaurante restaurante);
+    @Mapping(target = "cozinha", ignore = true)
+    Restaurante update(RestauranteInputDto restauranteInputDto, @MappingTarget Restaurante restaurante);
 }
