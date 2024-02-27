@@ -24,7 +24,11 @@ public record RestauranteInputDto(
 
         @Valid
         @NotNull
-        CozinhaIdInputDto cozinha
+        CozinhaIdInputDto cozinha,
+
+        @Valid
+        @NotNull
+        EnderecoInputDto endereco
 
 ) implements Serializable {
 }

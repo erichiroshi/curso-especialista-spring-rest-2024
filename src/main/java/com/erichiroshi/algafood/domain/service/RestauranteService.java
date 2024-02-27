@@ -1,9 +1,11 @@
 package com.erichiroshi.algafood.domain.service;
 
 import com.erichiroshi.algafood.api.dtos.inputs.RestauranteInputDto;
+import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.exception.RestauranteNaoEncontradoException;
+import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
@@ -22,10 +24,13 @@ public class RestauranteService {
 
     private final RestauranteMapper mapper;
 
-    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService, RestauranteMapper mapper) {
+    private final CidadeService cidadeService;
+
+    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService, RestauranteMapper mapper, CidadeService cidadeService) {
         this.repository = repository;
         this.cozinhaService = cozinhaService;
         this.mapper = mapper;
+        this.cidadeService = cidadeService;
     }
 
     @Transactional(readOnly = true)
@@ -43,8 +48,12 @@ public class RestauranteService {
     public Restaurante salvar(Restaurante restaurante) {
         try {
             Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+            Cidade cidade = cidadeService.findById(restaurante.getEndereco().getCidade().getId());
+
             restaurante.setCozinha(cozinha);
-        } catch (CozinhaNaoEncontradaException e) {
+            restaurante.getEndereco().setCidade(cidade);
+
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
 
@@ -57,11 +66,14 @@ public class RestauranteService {
 
         try {
             Cozinha cozinha = cozinhaService.findById(restauranteInputDto.cozinha().id());
+            Cidade cidade = cidadeService.findById(restauranteInputDto.endereco().cidade().id());
 
             restauranteAtual = mapper.update(restauranteInputDto, restauranteAtual);
 
             restauranteAtual.setCozinha(cozinha);
-        } catch (CozinhaNaoEncontradaException e) {
+            restauranteAtual.getEndereco().setCidade(cidade);
+
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
         return repository.save(restauranteAtual);

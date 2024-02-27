@@ -1,6 +1,7 @@
 package com.erichiroshi.algafood.mappers;
 
 import com.erichiroshi.algafood.api.dtos.CidadeDto;
+import com.erichiroshi.algafood.api.dtos.inputs.CidadeIdInputDto;
 import com.erichiroshi.algafood.api.dtos.inputs.CidadeInputDto;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import org.mapstruct.*;
@@ -22,4 +23,10 @@ public interface CidadeMapper {
     @Mapping(target = "estado", ignore = true)
     Cidade partialUpdate(CidadeInputDto cidadeInputDto, @MappingTarget Cidade cidade);
 
+    Cidade toEntity(CidadeIdInputDto cidadeIdInputDto);
+
+    CidadeIdInputDto toDto2(Cidade cidade);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Cidade partialUpdate(CidadeIdInputDto cidadeIdInputDto, @MappingTarget Cidade cidade);
 }
