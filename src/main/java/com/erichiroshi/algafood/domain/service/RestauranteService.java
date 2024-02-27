@@ -67,4 +67,16 @@ public class RestauranteService {
         return repository.save(restauranteAtual);
     }
 
+    @Transactional
+    public void ativar(Long restauranteId) {
+        Restaurante restaurante = findById(restauranteId);
+        restaurante.ativar();
+    }
+
+    @Transactional
+    public void inativar(Long restauranteId) {
+        Restaurante restaurante = findById(restauranteId);
+        restaurante.inativar();
+    }
+
 }
