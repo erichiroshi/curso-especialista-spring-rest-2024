@@ -108,4 +108,16 @@ public class RestauranteService {
         FormaPagamento formaPagamento = formaPagamentoService.findById(formaPagamentoId);
         restaurante.removerFormaPagamento(formaPagamento);
     }
+
+    @Transactional
+    public void abrir(Long restauranteId) {
+        Restaurante restaurante = findById(restauranteId);
+        restaurante.abrir();
+    }
+
+    @Transactional
+    public void fechar(Long restauranteId) {
+        Restaurante restaurante = findById(restauranteId);
+        restaurante.fechar();
+    }
 }
