@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -38,6 +39,14 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
+        repository.detach(usuario);
+        Optional<Usuario> usuarioExistente = repository.findByEmail(usuario.getEmail());
+
+        if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+            throw new NegocioException(
+                    String.format("Já existe um usuário cadastrado com o e-mail %s", usuario.getEmail()));
+        }
+
         return repository.save(usuario);
     }
 
@@ -46,7 +55,7 @@ public class UsuarioService {
         Usuario usuarioAtual = findById(usuarioId);
         usuarioAtual = mapper.partialUpdate(usuarioUpdateDto, usuarioAtual);
 
-        return repository.save(usuarioAtual);
+        return salvar(usuarioAtual);
     }
 
     @Transactional
@@ -59,6 +68,6 @@ public class UsuarioService {
 
         usuario.setSenha(usuarioSenhaUpdateDto.novaSenha());
 
-        repository.save(usuario);
+        salvar(usuario);
     }
 }
