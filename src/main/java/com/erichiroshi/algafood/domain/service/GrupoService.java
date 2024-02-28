@@ -4,6 +4,7 @@ import com.erichiroshi.algafood.api.dtos.inputs.GrupoInputDto;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Grupo;
+import com.erichiroshi.algafood.domain.model.Permissao;
 import com.erichiroshi.algafood.domain.repository.GrupoRepository;
 import com.erichiroshi.algafood.mappers.GrupoMapper;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GrupoService {
@@ -20,9 +22,12 @@ public class GrupoService {
 
     private final GrupoMapper mapper;
 
-    public GrupoService(GrupoRepository repository, GrupoMapper mapper) {
+    private final PermissaoService permissaoService;
+
+    public GrupoService(GrupoRepository repository, GrupoMapper mapper, PermissaoService permissaoService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.permissaoService = permissaoService;
     }
 
     @Transactional(readOnly = true)
@@ -61,6 +66,29 @@ public class GrupoService {
         grupoAtual = mapper.partialUpdate(grupoInputDto, grupoAtual);
 
         return repository.save(grupoAtual);
+    }
+
+    @Transactional(readOnly = true)
+    public Set<Permissao> listar(Long grupoId) {
+        Grupo grupo = findById(grupoId);
+
+        return grupo.getPermissoes();
+    }
+
+    @Transactional
+    public void associarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = findById(grupoId);
+        Permissao permissao = permissaoService.findById(permissaoId);
+
+        grupo.adicionarPermissao(permissao);
+    }
+
+    @Transactional
+    public void desassociarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = findById(grupoId);
+        Permissao permissao = permissaoService.findById(permissaoId);
+
+        grupo.removerPermissao(permissao);
     }
 
 }

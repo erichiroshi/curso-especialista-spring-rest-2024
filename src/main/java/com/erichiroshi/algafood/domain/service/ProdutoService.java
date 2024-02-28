@@ -14,9 +14,6 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    private final String MSG_RESTAURANTE_SEM_PRODUTO =
-            "Não existe um cadastro de produto com código %d, para o restaurante de código %d";
-
     private final ProdutoRepository repository;
 
     private final RestauranteService restauranteService;
@@ -63,6 +60,5 @@ public class ProdutoService {
 
         return repository.save(produto);
     }
-
 
 }
