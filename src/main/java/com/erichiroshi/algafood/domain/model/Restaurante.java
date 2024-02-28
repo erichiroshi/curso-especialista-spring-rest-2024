@@ -69,4 +69,8 @@ public class Restaurante {
     public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
         return formasPagamento.remove(formaPagamento);
     }
+
+    public boolean adicionarProduto(Produto produto) {
+        return produtos.add(produto);
+    }
 }
