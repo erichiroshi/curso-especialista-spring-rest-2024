@@ -4,6 +4,7 @@ import com.erichiroshi.algafood.api.dtos.inputs.UsuarioSenhaUpdateDto;
 import com.erichiroshi.algafood.api.dtos.inputs.UsuarioUpdateDto;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.exception.UsuarioNaoEncontradoException;
+import com.erichiroshi.algafood.domain.model.Grupo;
 import com.erichiroshi.algafood.domain.model.Usuario;
 import com.erichiroshi.algafood.domain.repository.UsuarioRepository;
 import com.erichiroshi.algafood.mappers.UsuarioMapper;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UsuarioService {
@@ -21,9 +23,12 @@ public class UsuarioService {
 
     private final UsuarioMapper mapper;
 
-    public UsuarioService(UsuarioRepository repository, UsuarioMapper mapper) {
+    private final GrupoService grupoService;
+
+    public UsuarioService(UsuarioRepository repository, UsuarioMapper mapper, GrupoService grupoService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.grupoService = grupoService;
     }
 
     @Transactional(readOnly = true)
@@ -69,5 +74,27 @@ public class UsuarioService {
         usuario.setSenha(usuarioSenhaUpdateDto.novaSenha());
 
         salvar(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public Set<Grupo> listarGrupos(Long usuarioId) {
+        Usuario usuario = findById(usuarioId);
+        return usuario.getGrupos();
+    }
+
+    @Transactional
+    public void associarGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = findById(usuarioId);
+        Grupo grupo = grupoService.findById(grupoId);
+
+        usuario.adicionarGrupo(grupo);
+    }
+
+    @Transactional
+    public void desassociarGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = findById(usuarioId);
+        Grupo grupo = grupoService.findById(grupoId);
+
+        usuario.removerGrupo(grupo);
     }
 }
