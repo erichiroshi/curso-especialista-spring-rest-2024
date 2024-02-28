@@ -7,6 +7,7 @@ import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Cozinha;
+import com.erichiroshi.algafood.domain.model.FormaPagamento;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
 import com.erichiroshi.algafood.mappers.RestauranteMapper;
@@ -26,11 +27,14 @@ public class RestauranteService {
 
     private final CidadeService cidadeService;
 
-    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService, RestauranteMapper mapper, CidadeService cidadeService) {
+    private final FormaPagamentoService formaPagamentoService;
+
+    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService, RestauranteMapper mapper, CidadeService cidadeService, FormaPagamentoService formaPagamentoService) {
         this.repository = repository;
         this.cozinhaService = cozinhaService;
         this.mapper = mapper;
         this.cidadeService = cidadeService;
+        this.formaPagamentoService = formaPagamentoService;
     }
 
     @Transactional(readOnly = true)
@@ -91,4 +95,17 @@ public class RestauranteService {
         restaurante.inativar();
     }
 
+    @Transactional
+    public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = findById(restauranteId);
+        FormaPagamento formaPagamento = formaPagamentoService.findById(formaPagamentoId);
+        restaurante.adicionarFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = findById(restauranteId);
+        FormaPagamento formaPagamento = formaPagamentoService.findById(formaPagamentoId);
+        restaurante.removerFormaPagamento(formaPagamento);
+    }
 }
