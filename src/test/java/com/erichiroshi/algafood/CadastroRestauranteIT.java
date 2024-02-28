@@ -1,8 +1,12 @@
 package com.erichiroshi.algafood;
 
+import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Cozinha;
+import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.model.Restaurante;
+import com.erichiroshi.algafood.domain.repository.CidadeRepository;
 import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
+import com.erichiroshi.algafood.domain.repository.EstadoRepository;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
 import com.erichiroshi.algafood.util.DatabaseCleaner;
 import com.erichiroshi.algafood.util.ResourceUtils;
@@ -25,8 +29,6 @@ import static org.hamcrest.Matchers.equalTo;
 @TestPropertySource("/application-test.properties")
 public class CadastroRestauranteIT {
 
-    private static final String VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE = "Violação de regra de negócio";
-
     private static final String DADOS_INVALIDOS_PROBLEM_TITLE = "Dados inválidos";
 
     private static final int RESTAURANTE_ID_INEXISTENTE = 100;
@@ -42,6 +44,12 @@ public class CadastroRestauranteIT {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
+
+    @Autowired
+    private CidadeRepository cidadeRepository;
+
+    @Autowired
+    private EstadoRepository estadoRepository;
 
     private String jsonRestauranteCorreto;
     private String jsonRestauranteSemFrete;
@@ -97,63 +105,63 @@ public class CadastroRestauranteIT {
     @Test
     public void deveRetornarStatus400_QuandoCadastrarRestauranteSemTaxaFrete() {
         given()
-                .body(jsonRestauranteSemFrete)
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .when()
-                .post()
-                .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
+            .body(jsonRestauranteSemFrete)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+        .when()
+            .post()
+        .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
     }
 
     @Test
     public void deveRetornarStatus400_QuandoCadastrarRestauranteSemCozinha() {
         given()
-                .body(jsonRestauranteSemCozinha)
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .when()
-                .post()
-                .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
+            .body(jsonRestauranteSemCozinha)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+        .when()
+            .post()
+        .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
     }
 
     @Test
     public void deveRetornarStatus400_QuandoCadastrarRestauranteComCozinhaInexistente() {
         given()
-                .body(jsonRestauranteComCozinhaInexistente)
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .when()
-                .post()
-                .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("title", equalTo(VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE));
+            .body(jsonRestauranteComCozinhaInexistente)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+        .when()
+            .post()
+        .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
     }
 
     @Test
     public void deveRetornarRespostaEStatusCorretos_QuandoConsultarRestauranteExistente() {
         given()
-                .pathParam("restauranteId", burgerTopRestaurante.getId())
-                .accept(ContentType.JSON)
-                .when()
-                .get("/{restauranteId}")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("nome", equalTo(burgerTopRestaurante.getNome()));
+            .pathParam("restauranteId", burgerTopRestaurante.getId())
+            .accept(ContentType.JSON)
+        .when()
+            .get("/{restauranteId}")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("nome", equalTo(burgerTopRestaurante.getNome()));
     }
 
     @Test
     public void deveRetornarStatus404_QuandoConsultarRestauranteInexistente() {
         given()
-                .pathParam("restauranteId", RESTAURANTE_ID_INEXISTENTE)
-                .accept(ContentType.JSON)
-                .when()
-                .get("/{restauranteId}")
-                .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+            .pathParam("restauranteId", RESTAURANTE_ID_INEXISTENTE)
+            .accept(ContentType.JSON)
+        .when()
+            .get("/{restauranteId}")
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     private void prepararDados() {
@@ -176,6 +184,16 @@ public class CadastroRestauranteIT {
         comidaMineiraRestaurante.setTaxaFrete(new BigDecimal(10));
         comidaMineiraRestaurante.setCozinha(cozinhaBrasileira);
         restauranteRepository.save(comidaMineiraRestaurante);
+
+        Estado acre = new Estado();
+        acre.setNome("Acre");
+        estadoRepository.save(acre);
+
+        Cidade cidadeSaoPaulo = new Cidade();
+        cidadeSaoPaulo.setNome("São Paulo");
+        cidadeSaoPaulo.setEstado(acre);
+        cidadeRepository.save(cidadeSaoPaulo);
+
     }
 
 }

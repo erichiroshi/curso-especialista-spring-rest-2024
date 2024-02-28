@@ -4,11 +4,11 @@ import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.model.Cozinha;
 import com.erichiroshi.algafood.domain.service.CozinhaService;
-import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,8 +37,8 @@ public class CadastroCozinhaIT {
         Cozinha novaCozinha = new Cozinha();
         novaCozinha.setNome(null);
 
-        ConstraintViolationException erroEsperado =
-                Assertions.assertThrows(ConstraintViolationException.class, () -> {
+        DataIntegrityViolationException erroEsperado =
+                Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
                     cozinhaService.salvar(novaCozinha);
                 });
 
