@@ -1,8 +1,8 @@
 {
-  "nome": "New York Barbecue",
+  "nome": "Comida Mineira",
   "taxaFrete": 12,
   "cozinha": {
-    "id": 2
+    "id": 1
   },
   "endereco": {
     "cep": "38400-999",

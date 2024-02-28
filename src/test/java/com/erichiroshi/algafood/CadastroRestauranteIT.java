@@ -29,6 +29,8 @@ import static org.hamcrest.Matchers.equalTo;
 @TestPropertySource("/application-test.properties")
 public class CadastroRestauranteIT {
 
+    private static final String VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE = "Violação de regra de negócio";
+
     private static final String DADOS_INVALIDOS_PROBLEM_TITLE = "Dados inválidos";
 
     private static final int RESTAURANTE_ID_INEXISTENTE = 100;
@@ -83,23 +85,23 @@ public class CadastroRestauranteIT {
     @Test
     public void deveRetornarStatus200_QuandoConsultarRestaurantes() {
         given()
-                .accept(ContentType.JSON)
-                .when()
-                .get()
-                .then()
-                .statusCode(HttpStatus.OK.value());
+            .accept(ContentType.JSON)
+        .when()
+            .get()
+        .then()
+            .statusCode(HttpStatus.OK.value());
     }
 
     @Test
     public void deveRetornarStatus201_QuandoCadastrarRestaurante() {
         given()
-                .body(jsonRestauranteCorreto)
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .when()
-                .post()
-                .then()
-                .statusCode(HttpStatus.CREATED.value());
+            .body(jsonRestauranteCorreto)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+        .when()
+            .post()
+        .then()
+            .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
@@ -138,7 +140,7 @@ public class CadastroRestauranteIT {
             .post()
         .then()
             .statusCode(HttpStatus.BAD_REQUEST.value())
-            .body("title", equalTo(DADOS_INVALIDOS_PROBLEM_TITLE));
+                .body("title", equalTo(VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE));
     }
 
     @Test
