@@ -1,6 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.api.dtos.PedidoDto;
+import com.erichiroshi.algafood.api.dtos.PedidoResumoDto;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import com.erichiroshi.algafood.domain.service.EmissaoPedidoService;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
@@ -26,9 +27,9 @@ public class PedidoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PedidoDto>> listar() {
+    public ResponseEntity<List<PedidoResumoDto>> listar() {
         List<Pedido> list = service.listar();
-        return ResponseEntity.ok(list.stream().map(mapper::toDto).collect(Collectors.toList()));
+        return ResponseEntity.ok(list.stream().map(mapper::toDto1).collect(Collectors.toList()));
     }
 
     @GetMapping("/{pedidoId}")

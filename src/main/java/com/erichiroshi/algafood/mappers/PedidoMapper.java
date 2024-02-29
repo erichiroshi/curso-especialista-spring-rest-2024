@@ -2,12 +2,12 @@ package com.erichiroshi.algafood.mappers;
 
 import com.erichiroshi.algafood.api.dtos.ItemPedidoDto;
 import com.erichiroshi.algafood.api.dtos.PedidoDto;
+import com.erichiroshi.algafood.api.dtos.PedidoResumoDto;
 import com.erichiroshi.algafood.domain.model.ItemPedido;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import org.mapstruct.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {
-		EnderecoMapper.class, FormaPagamentoMapper.class, UsuarioMapper.class })
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {EnderecoMapper.class, FormaPagamentoMapper.class, UsuarioMapper.class, RestauranteMapper.class})
 public interface PedidoMapper {
 
 	Pedido toEntity(PedidoDto pedidoDto);
@@ -21,4 +21,10 @@ public interface PedidoMapper {
 	@Mapping(source = "produto.nome", target = "produtoNome")
 	ItemPedidoDto toItemPedidoDto(ItemPedido item);
 
+	Pedido toEntity(PedidoResumoDto pedidoResumoDto);
+
+	PedidoResumoDto toDto1(Pedido pedido);
+
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	Pedido partialUpdate(PedidoResumoDto pedidoResumoDto, @MappingTarget Pedido pedido);
 }
