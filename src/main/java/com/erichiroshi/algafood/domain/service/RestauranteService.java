@@ -97,7 +97,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void ativar(List<Long> restauranteIds) {
+    public void ativarVarios(List<Long> restauranteIds) {
         try {
             restauranteIds.forEach(this::ativar);
         } catch (RestauranteNaoEncontradoException e) {
@@ -106,7 +106,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void inativar(List<Long> restauranteIds) {
+    public void inativarVarios(List<Long> restauranteIds) {
         try {
             restauranteIds.forEach(this::inativar);
         } catch (RestauranteNaoEncontradoException e) {
@@ -141,7 +141,7 @@ public class RestauranteService {
     }
 
     @Transactional(readOnly = true)
-    public Set<Usuario> listar(Long restauranteId) {
+    public Set<Usuario> listarResponsaveis(Long restauranteId) {
         Restaurante restaurante = findById(restauranteId);
         return restaurante.getResponsaveis();
     }

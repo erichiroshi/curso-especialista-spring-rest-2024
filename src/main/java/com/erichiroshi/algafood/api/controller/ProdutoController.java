@@ -26,14 +26,14 @@ public class ProdutoController {
 
     @GetMapping
     public ResponseEntity<List<ProdutoDto>> listar(@PathVariable Long restauranteId) {
-        List<Produto> list = service.listar(restauranteId);
+        List<Produto> list = service.findAll(restauranteId);
 
         return ResponseEntity.ok(list.stream().map(mapper::toDto).toList());
     }
 
     @GetMapping("/{produtoId}")
     public ResponseEntity<ProdutoDto> buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
-        Produto produto = service.buscar(restauranteId, produtoId);
+        Produto produto = service.findById(restauranteId, produtoId);
 
         return ResponseEntity.ok(mapper.toDto(produto));
     }

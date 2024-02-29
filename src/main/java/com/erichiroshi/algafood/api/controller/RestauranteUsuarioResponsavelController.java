@@ -24,7 +24,7 @@ public class RestauranteUsuarioResponsavelController {
 
     @GetMapping
     public ResponseEntity<Set<UsuarioDto>> listarResponsaveis(@PathVariable Long restauranteId) {
-        Set<Usuario> list = restauranteService.listar(restauranteId);
+        Set<Usuario> list = restauranteService.listarResponsaveis(restauranteId);
         return ResponseEntity.ok(list.stream().map(usuarioMapper::toDto).collect(Collectors.toSet()));
     }
 

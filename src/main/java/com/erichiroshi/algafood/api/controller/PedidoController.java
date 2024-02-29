@@ -28,13 +28,13 @@ public class PedidoController {
 
     @GetMapping
     public ResponseEntity<List<PedidoResumoDto>> listar() {
-        List<Pedido> list = service.listar();
+        List<Pedido> list = service.findAll();
         return ResponseEntity.ok(list.stream().map(mapper::toDto1).collect(Collectors.toList()));
     }
 
     @GetMapping("/{pedidoId}")
     public ResponseEntity<PedidoDto> buscar(@PathVariable Long pedidoId) {
-        Pedido pedido = service.buscar(pedidoId);
+        Pedido pedido = service.findById(pedidoId);
 
         return ResponseEntity.ok(mapper.toDto(pedido));
     }

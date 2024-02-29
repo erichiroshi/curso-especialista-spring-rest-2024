@@ -68,13 +68,13 @@ public class RestauranteController {
     @PutMapping("/ativacoes")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
-        service.ativar(restauranteIds);
+        service.ativarVarios(restauranteIds);
     }
 
     @DeleteMapping("/ativacoes")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
-        service.inativar(restauranteIds);
+        service.inativarVarios(restauranteIds);
     }
 
     @PutMapping("/{restauranteId}/abertura")

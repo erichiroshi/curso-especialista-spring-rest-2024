@@ -26,21 +26,17 @@ public class ProdutoService {
         this.mapper = mapper;
     }
 
-    private Produto findById(Long restauranteId, Long produtoId) {
-        return repository.findById(restauranteId, produtoId)
-                .orElseThrow(() -> new ProdutoNaoEncontradoException(restauranteId, produtoId));
-    }
-
     @Transactional(readOnly = true)
-    public List<Produto> listar(Long restauranteId) {
+    public List<Produto> findAll(Long restauranteId) {
         Restaurante restaurante = restauranteService.findById(restauranteId);
 
         return repository.findByRestaurante(restaurante);
     }
 
     @Transactional(readOnly = true)
-    public Produto buscar(Long restauranteId, Long produtoId) {
-        return findById(restauranteId, produtoId);
+    public Produto findById(Long restauranteId, Long produtoId) {
+        return repository.findById(restauranteId, produtoId)
+                .orElseThrow(() -> new ProdutoNaoEncontradoException(restauranteId, produtoId));
     }
 
     @Transactional
