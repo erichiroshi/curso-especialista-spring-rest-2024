@@ -2,14 +2,13 @@ package com.erichiroshi.algafood.api.controller;
 
 import com.erichiroshi.algafood.api.dtos.PedidoDto;
 import com.erichiroshi.algafood.api.dtos.PedidoResumoDto;
+import com.erichiroshi.algafood.api.dtos.inputs.PedidoInputDto;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import com.erichiroshi.algafood.domain.service.EmissaoPedidoService;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,5 +36,11 @@ public class PedidoController {
         Pedido pedido = service.findById(pedidoId);
 
         return ResponseEntity.ok(mapper.toDto(pedido));
+    }
+
+    @PostMapping
+    public ResponseEntity<PedidoDto> adicionar(@RequestBody PedidoInputDto pedidoInputDto){
+        Pedido pedido = service.emitir(pedidoInputDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(pedido));
     }
 }
