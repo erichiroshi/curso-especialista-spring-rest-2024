@@ -5,16 +5,14 @@ import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.exception.RestauranteNaoEncontradoException;
-import com.erichiroshi.algafood.domain.model.Cidade;
-import com.erichiroshi.algafood.domain.model.Cozinha;
-import com.erichiroshi.algafood.domain.model.FormaPagamento;
-import com.erichiroshi.algafood.domain.model.Restaurante;
+import com.erichiroshi.algafood.domain.model.*;
 import com.erichiroshi.algafood.domain.repository.RestauranteRepository;
 import com.erichiroshi.algafood.mappers.RestauranteMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RestauranteService {
@@ -29,12 +27,15 @@ public class RestauranteService {
 
     private final FormaPagamentoService formaPagamentoService;
 
-    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService, RestauranteMapper mapper, CidadeService cidadeService, FormaPagamentoService formaPagamentoService) {
+    private final UsuarioService usuarioService;
+
+    public RestauranteService(RestauranteRepository repository, CozinhaService cozinhaService, RestauranteMapper mapper, CidadeService cidadeService, FormaPagamentoService formaPagamentoService, UsuarioService usuarioService) {
         this.repository = repository;
         this.cozinhaService = cozinhaService;
         this.mapper = mapper;
         this.cidadeService = cidadeService;
         this.formaPagamentoService = formaPagamentoService;
+        this.usuarioService = usuarioService;
     }
 
     @Transactional(readOnly = true)
@@ -119,5 +120,27 @@ public class RestauranteService {
     public void fechar(Long restauranteId) {
         Restaurante restaurante = findById(restauranteId);
         restaurante.fechar();
+    }
+
+    @Transactional(readOnly = true)
+    public Set<Usuario> listar(Long restauranteId) {
+        Restaurante restaurante = findById(restauranteId);
+        return restaurante.getResponsaveis();
+    }
+
+    @Transactional
+    public void associarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = findById(restauranteId);
+        Usuario usuario = usuarioService.findById(usuarioId);
+
+        restaurante.adicionarResponsavel(usuario);
+    }
+
+    @Transactional
+    public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = findById(restauranteId);
+        Usuario usuario = usuarioService.findById(usuarioId);
+
+        restaurante.removerResponsavel(usuario);
     }
 }

@@ -17,6 +17,38 @@
     <exclude-change idName="restaurante#taxa_frete" tagName="modifyDataType" />
     <exclude-change idName="estado#nome" tagName="modifyDataType" />
     <exclude-change idName="cozinha#nome" tagName="modifyDataType" />
+    <exclude-change idName="restaurante#aberto" tagName="dropNotNullConstraint" />
+    <exclude-change idName="restaurante#ativo" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#data_criacao" tagName="dropNotNullConstraint" />
+    <exclude-change idName="grupo_permissao#grupo_id, permissao_id" tagName="addPrimaryKey" />
+    <exclude-change idName="usuario_grupo#grupo_id, usuario_id" tagName="addPrimaryKey" />
+    <exclude-change idName="pedido#endereco_bairro" tagName="modifyDataType" />
+    <exclude-change idName="restaurante_forma_pagamento#forma_pagamento_id, restaurante_id" tagName="addPrimaryKey" />
+    <exclude-change idName="pedido#endereco_bairro" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#endereco_cep" tagName="modifyDataType" />
+    <exclude-change idName="pedido#endereco_cep" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#endereco_cidade_id" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#endereco_complemento" tagName="modifyDataType" />
+    <exclude-change idName="pedido#endereco_complemento" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#endereco_logradouro" tagName="modifyDataType" />
+    <exclude-change idName="pedido#endereco_logradouro" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#endereco_numero" tagName="modifyDataType" />
+    <exclude-change idName="pedido#endereco_numero" tagName="dropNotNullConstraint" />
+    <exclude-change idName="item_pedido#observacao" tagName="dropNotNullConstraint" />
+    <exclude-change idName="item_pedido#preco_total" tagName="modifyDataType" />
+    <exclude-change idName="item_pedido#preco_total" tagName="dropNotNullConstraint" />
+    <exclude-change idName="item_pedido#preco_unitario" tagName="modifyDataType" />
+    <exclude-change idName="item_pedido#preco_unitario" tagName="dropNotNullConstraint" />
+    <exclude-change idName="item_pedido#quantidade" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#status" tagName="dropColumn" />
+    <exclude-change idName="pedido#status" tagName="addColumn" />
+    <exclude-change idName="pedido#status" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#sub_total" tagName="modifyDataType" />
+    <exclude-change idName="pedido#sub_total" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#taxa_frete" tagName="modifyDataType" />
+    <exclude-change idName="pedido#taxa_frete" tagName="dropNotNullConstraint" />
+    <exclude-change idName="pedido#valor_total" tagName="modifyDataType" />
+    <exclude-change idName="pedido#valor_total" tagName="dropNotNullConstraint" />
   </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>
