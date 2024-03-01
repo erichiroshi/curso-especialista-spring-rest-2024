@@ -27,7 +27,7 @@ public class ProdutoController {
 
     @GetMapping
     public ResponseEntity<List<ProdutoDto>> listar(@PathVariable Long restauranteId, @RequestParam(required = false) boolean incluirInativos) {
-        List<Produto> list = null;
+        List<Produto> list;
 
         if (incluirInativos) {
             list = service.findAll(restauranteId);

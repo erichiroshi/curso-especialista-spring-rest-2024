@@ -44,6 +44,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         this.messageSource = messageSource;
     }
 
+
     @ExceptionHandler({ ValidacaoException.class })
     public ResponseEntity<Object> handleValidacaoException(ValidacaoException ex, WebRequest request) {
 
