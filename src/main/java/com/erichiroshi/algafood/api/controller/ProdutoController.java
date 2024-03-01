@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
@@ -25,10 +26,16 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProdutoDto>> listar(@PathVariable Long restauranteId) {
-        List<Produto> list = service.findAll(restauranteId);
+    public ResponseEntity<List<ProdutoDto>> listar(@PathVariable Long restauranteId, @RequestParam(required = false) boolean incluirInativos) {
+        List<Produto> list = null;
 
-        return ResponseEntity.ok(list.stream().map(mapper::toDto).toList());
+        if (incluirInativos) {
+            list = service.findAll(restauranteId);
+        } else {
+            list = service.findAllProdutosAtivos(restauranteId);
+        }
+
+        return ResponseEntity.ok().body(list.stream().map(mapper::toDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/{produtoId}")

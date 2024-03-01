@@ -30,7 +30,14 @@ public class ProdutoService {
     public List<Produto> findAll(Long restauranteId) {
         Restaurante restaurante = restauranteService.findById(restauranteId);
 
-        return repository.findByRestaurante(restaurante);
+        return repository.findProdutosByRestaurante(restaurante);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Produto> findAllProdutosAtivos(Long restauranteId) {
+        Restaurante restaurante = restauranteService.findById(restauranteId);
+
+        return repository.findAtivosByRestaurante(restaurante);
     }
 
     @Transactional(readOnly = true)
