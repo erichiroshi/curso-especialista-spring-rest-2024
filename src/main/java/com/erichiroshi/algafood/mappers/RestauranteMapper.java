@@ -1,8 +1,8 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.RestauranteDto;
-import com.erichiroshi.algafood.api.dtos.RestauranteResumoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.RestauranteInputDto;
+import com.erichiroshi.algafood.api.model.dtos.RestauranteDto;
+import com.erichiroshi.algafood.api.model.dtos.RestauranteResumoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.RestauranteInputDto;
 import com.erichiroshi.algafood.domain.model.Restaurante;
 import org.mapstruct.*;
 

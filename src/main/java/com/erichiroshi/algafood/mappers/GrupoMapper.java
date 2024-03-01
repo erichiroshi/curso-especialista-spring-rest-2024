@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.GrupoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.GrupoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.GrupoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.GrupoInputDto;
 import com.erichiroshi.algafood.domain.model.Grupo;
 import org.mapstruct.*;
 

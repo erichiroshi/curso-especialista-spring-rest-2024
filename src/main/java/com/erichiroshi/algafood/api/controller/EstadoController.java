@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.api.dtos.EstadoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.EstadoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.EstadoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.EstadoInputDto;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.service.EstadoService;
 import com.erichiroshi.algafood.mappers.EstadoMapper;

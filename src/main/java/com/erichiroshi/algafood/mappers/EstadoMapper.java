@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.EstadoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.EstadoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.EstadoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.EstadoInputDto;
 import com.erichiroshi.algafood.domain.model.Estado;
 import org.mapstruct.*;
 

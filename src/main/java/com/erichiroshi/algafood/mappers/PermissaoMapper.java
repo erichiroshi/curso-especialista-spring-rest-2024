@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.PermissaoDto;
+import com.erichiroshi.algafood.api.model.dtos.PermissaoDto;
 import com.erichiroshi.algafood.domain.model.Permissao;
 import org.mapstruct.*;
 

@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.api.dtos.CidadeDto;
-import com.erichiroshi.algafood.api.dtos.inputs.CidadeInputDto;
+import com.erichiroshi.algafood.api.model.dtos.CidadeDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.CidadeInputDto;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.service.CidadeService;
 import com.erichiroshi.algafood.mappers.CidadeMapper;

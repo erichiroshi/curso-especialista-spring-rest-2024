@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.domain.service;
 
-import com.erichiroshi.algafood.api.dtos.inputs.GrupoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.GrupoInputDto;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Grupo;

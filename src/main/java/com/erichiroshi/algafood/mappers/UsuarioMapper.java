@@ -1,9 +1,9 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.UsuarioDto;
-import com.erichiroshi.algafood.api.dtos.inputs.UsuarioInputDto;
-import com.erichiroshi.algafood.api.dtos.inputs.UsuarioSenhaUpdateDto;
-import com.erichiroshi.algafood.api.dtos.inputs.UsuarioUpdateDto;
+import com.erichiroshi.algafood.api.model.dtos.UsuarioDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.UsuarioInputDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.UsuarioSenhaUpdateDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.UsuarioUpdateDto;
 import com.erichiroshi.algafood.domain.model.Usuario;
 import org.mapstruct.*;
 

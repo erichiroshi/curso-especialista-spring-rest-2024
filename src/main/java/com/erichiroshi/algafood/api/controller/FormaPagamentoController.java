@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.api.dtos.FormaPagamentoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.FormaPagamentoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.FormaPagamentoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.FormaPagamentoInputDto;
 import com.erichiroshi.algafood.domain.model.FormaPagamento;
 import com.erichiroshi.algafood.domain.repository.FormaPagamentoRepository;
 import com.erichiroshi.algafood.domain.service.FormaPagamentoService;

@@ -1,8 +1,8 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.api.dtos.PedidoDto;
-import com.erichiroshi.algafood.api.dtos.PedidoResumoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.PedidoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.PedidoDto;
+import com.erichiroshi.algafood.api.model.dtos.PedidoResumoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.PedidoInputDto;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import com.erichiroshi.algafood.domain.service.EmissaoPedidoService;
 import com.erichiroshi.algafood.mappers.PedidoMapper;

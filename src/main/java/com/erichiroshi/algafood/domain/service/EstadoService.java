@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.domain.service;
 
-import com.erichiroshi.algafood.api.dtos.inputs.EstadoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.EstadoInputDto;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
 import com.erichiroshi.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Estado;

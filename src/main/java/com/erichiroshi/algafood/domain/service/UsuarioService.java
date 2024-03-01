@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.domain.service;
 
-import com.erichiroshi.algafood.api.dtos.inputs.UsuarioSenhaUpdateDto;
-import com.erichiroshi.algafood.api.dtos.inputs.UsuarioUpdateDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.UsuarioSenhaUpdateDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.UsuarioUpdateDto;
 import com.erichiroshi.algafood.domain.exception.NegocioException;
 import com.erichiroshi.algafood.domain.exception.UsuarioNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Grupo;

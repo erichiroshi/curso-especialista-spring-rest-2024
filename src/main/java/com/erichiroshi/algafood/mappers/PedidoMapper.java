@@ -1,10 +1,10 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.ItemPedidoDto;
-import com.erichiroshi.algafood.api.dtos.PedidoDto;
-import com.erichiroshi.algafood.api.dtos.PedidoResumoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.ItemPedidoInputDto;
-import com.erichiroshi.algafood.api.dtos.inputs.PedidoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.ItemPedidoDto;
+import com.erichiroshi.algafood.api.model.dtos.PedidoDto;
+import com.erichiroshi.algafood.api.model.dtos.PedidoResumoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.ItemPedidoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.PedidoInputDto;
 import com.erichiroshi.algafood.domain.model.ItemPedido;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import org.mapstruct.*;

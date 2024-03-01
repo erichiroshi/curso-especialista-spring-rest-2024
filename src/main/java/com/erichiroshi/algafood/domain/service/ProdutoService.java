@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.domain.service;
 
-import com.erichiroshi.algafood.api.dtos.inputs.ProdutoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.ProdutoInputDto;
 import com.erichiroshi.algafood.domain.exception.ProdutoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.Produto;
 import com.erichiroshi.algafood.domain.model.Restaurante;

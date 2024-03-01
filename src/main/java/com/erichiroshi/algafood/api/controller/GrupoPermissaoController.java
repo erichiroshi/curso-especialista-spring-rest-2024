@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.api.dtos.PermissaoDto;
+import com.erichiroshi.algafood.api.model.dtos.PermissaoDto;
 import com.erichiroshi.algafood.domain.model.Permissao;
 import com.erichiroshi.algafood.domain.service.GrupoService;
 import com.erichiroshi.algafood.mappers.PermissaoMapper;

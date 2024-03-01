@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.api.dtos.GrupoDto;
+import com.erichiroshi.algafood.api.model.dtos.GrupoDto;
 import com.erichiroshi.algafood.domain.model.Grupo;
 import com.erichiroshi.algafood.domain.service.UsuarioService;
 import com.erichiroshi.algafood.mappers.GrupoMapper;

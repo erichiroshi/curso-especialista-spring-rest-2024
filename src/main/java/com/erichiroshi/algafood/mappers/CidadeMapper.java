@@ -1,8 +1,8 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.CidadeDto;
-import com.erichiroshi.algafood.api.dtos.inputs.CidadeIdInputDto;
-import com.erichiroshi.algafood.api.dtos.inputs.CidadeInputDto;
+import com.erichiroshi.algafood.api.model.dtos.CidadeDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.CidadeIdInputDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.CidadeInputDto;
 import com.erichiroshi.algafood.domain.model.Cidade;
 import org.mapstruct.*;
 

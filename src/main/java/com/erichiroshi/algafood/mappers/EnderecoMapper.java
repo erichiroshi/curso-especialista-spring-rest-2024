@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.mappers;
 
-import com.erichiroshi.algafood.api.dtos.EnderecoDto;
-import com.erichiroshi.algafood.api.dtos.inputs.EnderecoInputDto;
+import com.erichiroshi.algafood.api.model.dtos.EnderecoDto;
+import com.erichiroshi.algafood.api.model.dtos.inputs.EnderecoInputDto;
 import com.erichiroshi.algafood.domain.model.Endereco;
 import org.mapstruct.*;
 
