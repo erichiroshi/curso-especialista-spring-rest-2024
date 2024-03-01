@@ -6,6 +6,7 @@ import com.erichiroshi.algafood.domain.exception.PedidoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.*;
 import com.erichiroshi.algafood.domain.repository.PedidoRepository;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +36,8 @@ public class EmissaoPedidoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Pedido> findAll() {
-        return repository.findAll();
+    public List<Pedido> findAll(Specification<Pedido> pedidoSpecification) {
+        return repository.findAll(pedidoSpecification);
     }
 
     @Transactional(readOnly = true)

@@ -4,6 +4,8 @@ import com.erichiroshi.algafood.api.model.dtos.PedidoDto;
 import com.erichiroshi.algafood.api.model.dtos.PedidoResumoDto;
 import com.erichiroshi.algafood.api.model.dtos.inputs.PedidoInputDto;
 import com.erichiroshi.algafood.domain.model.Pedido;
+import com.erichiroshi.algafood.domain.repository.filter.PedidoFilter;
+import com.erichiroshi.algafood.domain.repository.specs.PedidoSpecs;
 import com.erichiroshi.algafood.domain.service.EmissaoPedidoService;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
 import org.springframework.http.HttpStatus;
@@ -27,8 +29,8 @@ public class PedidoController {
 
 
     @GetMapping
-    public ResponseEntity<List<PedidoResumoDto>> listar() {
-        List<Pedido> list = service.findAll();
+    public ResponseEntity<List<PedidoResumoDto>> pesquisar(PedidoFilter filtro) {
+        List<Pedido> list = service.findAll(PedidoSpecs.usandoFiltro(filtro));
         return ResponseEntity.ok(list.stream().map(mapper::toDto1).collect(Collectors.toList()));
     }
 
