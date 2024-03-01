@@ -12,7 +12,7 @@ import java.util.List;
  */
 public record PedidoDto(
 
-        Long id,
+        String codigo,
         BigDecimal subtotal,
         BigDecimal taxaFrete,
         BigDecimal valorTotal,

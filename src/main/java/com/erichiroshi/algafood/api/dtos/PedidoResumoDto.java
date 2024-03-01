@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
  */
 public record PedidoResumoDto(
 
-        Long id,
+        String codigo,
         BigDecimal subtotal,
         BigDecimal taxaFrete,
         BigDecimal valorTotal,

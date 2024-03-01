@@ -40,9 +40,9 @@ public class EmissaoPedidoService {
     }
 
     @Transactional(readOnly = true)
-    public Pedido findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new PedidoNaoEncontradoException(id));
+    public Pedido findByCodigo(String codigoPedido) {
+        return repository.findByCodigo(codigoPedido)
+                .orElseThrow(() -> new PedidoNaoEncontradoException(codigoPedido));
     }
 
     @Transactional

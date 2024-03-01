@@ -31,9 +31,9 @@ public class PedidoController {
         return ResponseEntity.ok(list.stream().map(mapper::toDto1).collect(Collectors.toList()));
     }
 
-    @GetMapping("/{pedidoId}")
-    public ResponseEntity<PedidoDto> buscar(@PathVariable Long pedidoId) {
-        Pedido pedido = service.findById(pedidoId);
+    @GetMapping("/{codigoPedido}")
+    public ResponseEntity<PedidoDto> buscar(@PathVariable String codigoPedido) {
+        Pedido pedido = service.findByCodigo(codigoPedido);
 
         return ResponseEntity.ok(mapper.toDto(pedido));
     }
