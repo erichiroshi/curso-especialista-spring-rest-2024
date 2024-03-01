@@ -1,6 +1,7 @@
 package com.erichiroshi.algafood.domain.model;
 
 import com.erichiroshi.algafood.domain.enums.StatusPedido;
+import com.erichiroshi.algafood.domain.exception.NegocioException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -63,12 +64,29 @@ public class Pedido {
         this.valorTotal = this.subtotal.add(this.taxaFrete);
     }
 
-    public void definirFrete() {
-        setTaxaFrete(getRestaurante().getTaxaFrete());
+    public void confirmar() {
+        setStatus(StatusPedido.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
     }
 
-    public void atribuirPedidoAosItens() {
-        getItens().forEach(item -> item.setPedido(this));
+    public void entregar() {
+        setStatus(StatusPedido.ENTREGUE);
+        setDataEntrega(OffsetDateTime.now());
     }
 
+    public void cancelar() {
+        setStatus(StatusPedido.CANCELADO);
+        setDataCancelamento(OffsetDateTime.now());
+    }
+
+    private void setStatus(StatusPedido novoStatus) {
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(
+                    String.format("Status do pedido %d não pode ser alterado de %s para %s",
+                            getId(), getStatus().getDescricao(),
+                            novoStatus.getDescricao()));
+        }
+
+        this.status = novoStatus;
+    }
 }
