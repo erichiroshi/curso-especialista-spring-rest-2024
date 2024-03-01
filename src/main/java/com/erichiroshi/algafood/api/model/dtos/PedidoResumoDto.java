@@ -1,7 +1,6 @@
 package com.erichiroshi.algafood.api.model.dtos;
 
 import com.erichiroshi.algafood.domain.enums.StatusPedido;
-import com.fasterxml.jackson.annotation.JsonFilter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,7 +10,6 @@ import java.time.OffsetDateTime;
  * DTO for {@link com.erichiroshi.algafood.domain.model.Pedido}
  */
 
-@JsonFilter("pedidoFilter")
 public record PedidoResumoDto(
 
         String codigo,
