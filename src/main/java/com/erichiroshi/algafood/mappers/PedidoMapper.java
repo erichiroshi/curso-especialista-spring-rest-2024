@@ -15,6 +15,7 @@ public interface PedidoMapper {
 
     Pedido toEntity(PedidoDto pedidoDto);
 
+
     PedidoDto toDto(Pedido pedido);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -26,6 +27,7 @@ public interface PedidoMapper {
 
     Pedido toEntity(PedidoResumoDto pedidoResumoDto);
 
+    @Mapping(source = "cliente.nome", target = "nomeCliente")
     PedidoResumoDto toDto1(Pedido pedido);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

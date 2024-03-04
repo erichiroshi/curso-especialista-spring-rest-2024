@@ -19,7 +19,8 @@ public record PedidoResumoDto(
         StatusPedido status,
         OffsetDateTime dataCriacao,
         RestauranteResumoDto restaurante,
-        UsuarioDto cliente
+//        UsuarioDto cliente
+        String nomeCliente
 
 ) implements Serializable {
 }
