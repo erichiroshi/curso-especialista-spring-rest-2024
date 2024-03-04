@@ -8,10 +8,10 @@ import com.erichiroshi.algafood.domain.repository.CozinhaRepository;
 import com.erichiroshi.algafood.mappers.CozinhaMapper;
 import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class CozinhaService {
@@ -26,8 +26,8 @@ public class CozinhaService {
     }
 
     @Transactional(readOnly = true)
-    public List<Cozinha> findAll() {
-        return repository.findAll();
+    public Page<Cozinha> findAll(Pageable pegeable) {
+        return repository.findAll(pegeable);
     }
 
     @Transactional(readOnly = true)
