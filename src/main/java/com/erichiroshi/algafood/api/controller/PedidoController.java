@@ -8,12 +8,12 @@ import com.erichiroshi.algafood.domain.repository.filter.PedidoFilter;
 import com.erichiroshi.algafood.domain.repository.specs.PedidoSpecs;
 import com.erichiroshi.algafood.domain.service.EmissaoPedidoService;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -29,9 +29,9 @@ public class PedidoController {
 
 
     @GetMapping
-    public ResponseEntity<List<PedidoResumoDto>> pesquisar(PedidoFilter filtro) {
-        List<Pedido> list = service.findAll(PedidoSpecs.usandoFiltro(filtro));
-        return ResponseEntity.ok(list.stream().map(mapper::toDto1).collect(Collectors.toList()));
+    public ResponseEntity<Page<PedidoResumoDto>> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
+        Page<Pedido> list = service.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+        return ResponseEntity.ok(list.map(mapper::toDto1));
     }
 
     @GetMapping("/{codigoPedido}")

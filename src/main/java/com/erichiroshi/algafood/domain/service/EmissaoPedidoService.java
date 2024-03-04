@@ -6,11 +6,11 @@ import com.erichiroshi.algafood.domain.exception.PedidoNaoEncontradoException;
 import com.erichiroshi.algafood.domain.model.*;
 import com.erichiroshi.algafood.domain.repository.PedidoRepository;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class EmissaoPedidoService {
@@ -36,8 +36,8 @@ public class EmissaoPedidoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Pedido> findAll(Specification<Pedido> pedidoSpecification) {
-        return repository.findAll(pedidoSpecification);
+    public Page<Pedido> findAll(Specification<Pedido> pedidoSpecification, Pageable pageable) {
+        return repository.findAll(pedidoSpecification, pageable);
     }
 
     @Transactional(readOnly = true)
