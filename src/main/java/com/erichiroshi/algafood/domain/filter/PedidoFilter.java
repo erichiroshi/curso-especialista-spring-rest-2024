@@ -1,4 +1,4 @@
-package com.erichiroshi.algafood.domain.repository.filter;
+package com.erichiroshi.algafood.domain.filter;
 
 import lombok.Getter;
 import lombok.Setter;

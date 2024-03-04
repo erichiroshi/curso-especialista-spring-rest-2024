@@ -1,5 +1,7 @@
 package com.erichiroshi.algafood.domain.repository;
 
+import com.erichiroshi.algafood.api.model.dtos.VendaDiaria;
+import com.erichiroshi.algafood.domain.filter.VendaDiariaFilter;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +15,5 @@ public interface PedidoRepository extends CustomJpaRepository<Pedido, Long>, Jpa
 
     @Query("from Pedido p join fetch p.cliente join fetch p.restaurante r join fetch r.cozinha")
     List<Pedido> findAll();
+
 }

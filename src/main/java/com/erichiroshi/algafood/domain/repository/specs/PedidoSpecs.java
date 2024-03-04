@@ -1,7 +1,7 @@
 package com.erichiroshi.algafood.domain.repository.specs;
 
 import com.erichiroshi.algafood.domain.model.Pedido;
-import com.erichiroshi.algafood.domain.repository.filter.PedidoFilter;
+import com.erichiroshi.algafood.domain.filter.PedidoFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

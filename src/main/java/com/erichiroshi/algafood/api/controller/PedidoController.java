@@ -5,7 +5,7 @@ import com.erichiroshi.algafood.api.model.dtos.PedidoResumoDto;
 import com.erichiroshi.algafood.api.model.dtos.inputs.PedidoInputDto;
 import com.erichiroshi.algafood.core.data.PageableTranslator;
 import com.erichiroshi.algafood.domain.model.Pedido;
-import com.erichiroshi.algafood.domain.repository.filter.PedidoFilter;
+import com.erichiroshi.algafood.domain.filter.PedidoFilter;
 import com.erichiroshi.algafood.domain.repository.specs.PedidoSpecs;
 import com.erichiroshi.algafood.domain.service.EmissaoPedidoService;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
