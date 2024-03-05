@@ -1,4 +1,4 @@
-package com.erichiroshi.algafood.api.model.dtos;
+package com.erichiroshi.algafood.domain.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

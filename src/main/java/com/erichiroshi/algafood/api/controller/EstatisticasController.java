@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood.api.controller;
 
-import com.erichiroshi.algafood.api.model.dtos.VendaDiaria;
+import com.erichiroshi.algafood.domain.model.dto.VendaDiaria;
 import com.erichiroshi.algafood.domain.filter.VendaDiariaFilter;
 import com.erichiroshi.algafood.domain.service.VendaQueryService;
 import com.erichiroshi.algafood.domain.service.VendaReportService;

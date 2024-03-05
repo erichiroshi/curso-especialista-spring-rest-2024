@@ -1,6 +1,6 @@
-package com.erichiroshi.algafood.domain.repository.impl;
+package com.erichiroshi.algafood.infrastructure.service.query;
 
-import com.erichiroshi.algafood.api.model.dtos.VendaDiaria;
+import com.erichiroshi.algafood.domain.model.dto.VendaDiaria;
 import com.erichiroshi.algafood.domain.enums.StatusPedido;
 import com.erichiroshi.algafood.domain.filter.VendaDiariaFilter;
 import com.erichiroshi.algafood.domain.model.Pedido;

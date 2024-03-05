@@ -6,7 +6,7 @@ import com.erichiroshi.algafood.api.model.dtos.inputs.PedidoInputDto;
 import com.erichiroshi.algafood.core.data.PageableTranslator;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import com.erichiroshi.algafood.domain.filter.PedidoFilter;
-import com.erichiroshi.algafood.domain.repository.specs.PedidoSpecs;
+import com.erichiroshi.algafood.infrastructure.repository.spec.PedidoSpecs;
 import com.erichiroshi.algafood.domain.service.EmissaoPedidoService;
 import com.erichiroshi.algafood.mappers.PedidoMapper;
 import org.springframework.data.domain.Page;

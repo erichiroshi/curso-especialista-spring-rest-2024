@@ -1,4 +1,4 @@
-package com.erichiroshi.algafood.domain.repository.specs;
+package com.erichiroshi.algafood.infrastructure.repository.spec;
 
 import com.erichiroshi.algafood.domain.model.Pedido;
 import com.erichiroshi.algafood.domain.filter.PedidoFilter;

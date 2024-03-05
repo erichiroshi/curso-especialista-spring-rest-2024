@@ -1,6 +1,6 @@
 package com.erichiroshi.algafood;
 
-import com.erichiroshi.algafood.domain.repository.impl.CustomJpaRepositoryImpl;
+import com.erichiroshi.algafood.infrastructure.repository.CustomJpaRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

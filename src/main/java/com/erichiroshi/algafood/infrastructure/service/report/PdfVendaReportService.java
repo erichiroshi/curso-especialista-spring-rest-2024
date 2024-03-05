@@ -1,10 +1,9 @@
-package com.erichiroshi.algafood.infrastructure.service;
+package com.erichiroshi.algafood.infrastructure.service.report;
 
-import com.erichiroshi.algafood.api.model.dtos.VendaDiaria;
 import com.erichiroshi.algafood.domain.filter.VendaDiariaFilter;
+import com.erichiroshi.algafood.domain.model.dto.VendaDiaria;
 import com.erichiroshi.algafood.domain.service.VendaQueryService;
 import com.erichiroshi.algafood.domain.service.VendaReportService;
-import com.erichiroshi.algafood.infrastructure.service.report.ReportException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;

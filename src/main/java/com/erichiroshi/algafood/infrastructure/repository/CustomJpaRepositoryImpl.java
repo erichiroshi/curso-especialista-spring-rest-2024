@@ -1,4 +1,4 @@
-package com.erichiroshi.algafood.domain.repository.impl;
+package com.erichiroshi.algafood.infrastructure.repository;
 
 import com.erichiroshi.algafood.domain.repository.CustomJpaRepository;
 import jakarta.persistence.EntityManager;

@@ -1,7 +1,5 @@
 package com.erichiroshi.algafood.domain.repository;
 
-import com.erichiroshi.algafood.api.model.dtos.VendaDiaria;
-import com.erichiroshi.algafood.domain.filter.VendaDiariaFilter;
 import com.erichiroshi.algafood.domain.model.Pedido;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
