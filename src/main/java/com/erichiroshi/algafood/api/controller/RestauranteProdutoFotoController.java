@@ -1,5 +1,7 @@
 package com.erichiroshi.algafood.api.controller;
 
+import java.io.IOException;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,7 +37,7 @@ public class RestauranteProdutoFotoController {
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDto atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,
-			@Valid FotoProdutoInput fotoProdutoInput) {
+			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 
 		Produto produto = produtoService.findById(restauranteId, produtoId);
 		
@@ -48,7 +50,7 @@ public class RestauranteProdutoFotoController {
 		foto.setTamanho(arquivo.getSize());
 		foto.setNomeArquivo(arquivo.getOriginalFilename());
 
-		FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(foto);
+		FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(foto, arquivo.getInputStream());
 		
 		return fotoProdutoMapper.toDto(fotoSalva);
 
