@@ -1,26 +1,24 @@
-version: '3.3'
+version: '3.8'
 
 name: algafood-api
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8.1
     container_name: mysql-container
     ports:
       - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: 'algafood'
+      MYSQL_DATABASE: algafood
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin-container
-    links:
-      - mysql
     ports:
       - '8081:80'
     environment:
-      MYSQL_USERNAME: 'root'
-      MYSQL_ROOT_PASSWORD:
       PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: 123456
     depends_on:
       - mysql
