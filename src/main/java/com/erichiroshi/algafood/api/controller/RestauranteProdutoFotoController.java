@@ -1,6 +1,5 @@
 package com.erichiroshi.algafood.api.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,14 +21,17 @@ import jakarta.validation.Valid;
 @RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
 public class RestauranteProdutoFotoController {
 
-	@Autowired
 	private ProdutoService produtoService;
-
-	@Autowired
 	private CatalogoFotoProdutoService catalogoFotoProdutoService;	
-	
-	@Autowired
 	private FotoProdutoMapper fotoProdutoMapper;
+
+	public RestauranteProdutoFotoController(ProdutoService produtoService, CatalogoFotoProdutoService catalogoFotoProdutoService,
+			FotoProdutoMapper fotoProdutoMapper) {
+		this.produtoService = produtoService;
+		this.catalogoFotoProdutoService = catalogoFotoProdutoService;
+		this.fotoProdutoMapper = fotoProdutoMapper;
+	}
+
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDto atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,

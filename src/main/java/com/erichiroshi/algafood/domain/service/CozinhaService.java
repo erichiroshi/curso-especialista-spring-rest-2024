@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CozinhaService {
 
     private final CozinhaRepository repository;
-
     private final CozinhaMapper mapper;
 
     public CozinhaService(CozinhaRepository repository, CozinhaMapper mapper) {

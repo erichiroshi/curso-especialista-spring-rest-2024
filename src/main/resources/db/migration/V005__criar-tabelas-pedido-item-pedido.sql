@@ -26,7 +26,7 @@ CREATE TABLE item_pedido
     id             BIGINT AUTO_INCREMENT NOT NULL,
     preco_unitario DECIMAL(10, 2)        not NULL,
     preco_total    DECIMAL(10, 2)        not NULL,
-    quantidade     smallint(6)           not NULL,
+    quantidade     smallint           not NULL,
     observacao     VARCHAR(255)          not NULL,
     pedido_id      BIGINT                NOT NULL,
     produto_id     BIGINT                NOT NULL,

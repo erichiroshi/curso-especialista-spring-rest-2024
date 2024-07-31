@@ -1,5 +1,11 @@
 package com.erichiroshi.algafood.domain.service;
 
+import java.util.List;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.erichiroshi.algafood.api.model.dtos.inputs.CidadeInputDto;
 import com.erichiroshi.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.erichiroshi.algafood.domain.exception.EntidadeEmUsoException;
@@ -9,19 +15,12 @@ import com.erichiroshi.algafood.domain.model.Cidade;
 import com.erichiroshi.algafood.domain.model.Estado;
 import com.erichiroshi.algafood.domain.repository.CidadeRepository;
 import com.erichiroshi.algafood.mappers.CidadeMapper;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class CidadeService {
 
     private final CidadeRepository repository;
-
     private final EstadoService estadoService;
-
     private final CidadeMapper mapper;
 
     public CidadeService(CidadeRepository repository, EstadoService estadoService, CidadeMapper mapper) {
@@ -55,7 +54,7 @@ public class CidadeService {
 
     @Transactional
     public void excluir(Long cidadeId) {
-        findById(cidadeId);
+    	findById(cidadeId);
 
         try {
             repository.deleteById(cidadeId);

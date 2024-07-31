@@ -7,4 +7,4 @@ create table foto_produto (
 
   primary key (produto_id),
   constraint fk_foto_produto_produto foreign key (produto_id) references produto (id)
-) engine=InnoDB default charset=utf8;
+);
