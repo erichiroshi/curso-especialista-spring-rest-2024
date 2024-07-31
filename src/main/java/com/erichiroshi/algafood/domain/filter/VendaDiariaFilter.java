@@ -11,11 +11,11 @@ import java.time.OffsetDateTime;
 @Getter
 public class VendaDiariaFilter {
 
-    private Long restauranteId;
+	private Long restauranteId;
 
-    @DateTimeFormat(iso = ISO.DATE_TIME)
-    private OffsetDateTime dataCriacaoInicio;
+	@DateTimeFormat(iso = ISO.DATE_TIME)
+	private OffsetDateTime dataCriacaoInicio;
 
-    @DateTimeFormat(iso = ISO.DATE_TIME)
-    private OffsetDateTime dataCriacaoFim;
+	@DateTimeFormat(iso = ISO.DATE_TIME)
+	private OffsetDateTime dataCriacaoFim;
 }

@@ -1,8 +1,9 @@
 package com.erichiroshi.algafood.domain.exception;
 
 public class CozinhaNaoEncontradaException extends EntidadeNaoEncontradaException {
+	private static final long serialVersionUID = 1L;
 
-    public CozinhaNaoEncontradaException(String message) {
+	public CozinhaNaoEncontradaException(String message) {
         super(message);
     }
 
@@ -10,5 +11,3 @@ public class CozinhaNaoEncontradaException extends EntidadeNaoEncontradaExceptio
         this(String.format("Não existe um cadastro de cozinha com código %d", cozinhaId));
     }
 }
-
-

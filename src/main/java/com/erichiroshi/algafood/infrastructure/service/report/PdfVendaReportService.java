@@ -1,20 +1,22 @@
 package com.erichiroshi.algafood.infrastructure.service.report;
 
-import com.erichiroshi.algafood.domain.filter.VendaDiariaFilter;
-import com.erichiroshi.algafood.domain.model.dto.VendaDiaria;
-import com.erichiroshi.algafood.domain.service.VendaQueryService;
-import com.erichiroshi.algafood.domain.service.VendaReportService;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.springframework.stereotype.Service;
-
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.erichiroshi.algafood.domain.filter.VendaDiariaFilter;
+import com.erichiroshi.algafood.domain.model.dto.VendaDiaria;
+import com.erichiroshi.algafood.domain.service.VendaQueryService;
+import com.erichiroshi.algafood.domain.service.VendaReportService;
+
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class PdfVendaReportService implements VendaReportService {
@@ -32,7 +34,7 @@ public class PdfVendaReportService implements VendaReportService {
             InputStream inputStream = this.getClass().getResourceAsStream("/relatorios/vendas-diarias.jasper");
 
             Map<String, Object> parametros = new HashMap<>();
-            parametros.put("REPORT_LOCALE", new Locale("pt", "BR"));
+            parametros.put("REPORT_LOCALE", Locale.of("pt", "BR"));
 
             List<VendaDiaria> vendaDiarias = vendaQueryService.consultarVendasDiarias(filtro, timeOffset);
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(vendaDiarias);
@@ -43,6 +45,6 @@ public class PdfVendaReportService implements VendaReportService {
 
         } catch (Exception e) {
             throw new ReportException("Não foi possível emitir relatório de vendas diárias", e);
-        }
-    }
+		}
+	}
 }

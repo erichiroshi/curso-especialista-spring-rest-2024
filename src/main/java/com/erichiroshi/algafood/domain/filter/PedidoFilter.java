@@ -5,16 +5,15 @@ import lombok.Setter;
 
 import java.time.OffsetDateTime;
 
-
 @Setter
 @Getter
 public class PedidoFilter {
 
-    private Long clienteId;
-    private Long restauranteId;
+	private Long clienteId;
+	private Long restauranteId;
 
-    private OffsetDateTime dataCriacaoInicio;
+	private OffsetDateTime dataCriacaoInicio;
 
-    private OffsetDateTime dataCriacaoFim;
+	private OffsetDateTime dataCriacaoFim;
 
 }
